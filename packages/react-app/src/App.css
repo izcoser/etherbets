@@ -1,0 +1,174 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.game{
+  border: 25px solid #3f3f9b;
+  padding-bottom: 20px;
+}
+
+.gameName, .createGame{
+  font-weight: bolder;
+}
+
+.gameName:hover, .createGame:hover{
+  cursor: pointer;
+}
+
+.validField{
+ background-color: green;
+}
+
+.invalidField{
+  background-color: red;
+}
+
+.contractLink{
+  color: greenyellow;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.gamePrize{
+  grid-area: prize;
+}
+
+.gameCost{
+  grid-area: cost;
+}
+
+.gamePicks{
+  /*grid-area: picks;*/
+  font-weight: bold;
+  color: greenyellow;
+}
+
+.gameMax{
+  /*grid-area: max;*/
+  font-weight: bold;
+  color: greenyellow;
+}
+
+.nextDraw{
+  grid-area: next;
+}
+
+.lastNumbers{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  white-space: pre;
+  grid-area: last;
+}
+
+.gameOdds{
+  grid-area: odds;
+}
+
+.gameContract{
+  grid-area: contract;
+}
+
+.gameInstruction{
+  grid-area: instruction;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  white-space: pre;
+}
+
+input[type="button"]{
+  background-color: greenyellow;
+}
+
+input[type="button"]:hover{
+  cursor: pointer;
+}
+
+input[type="text"]{
+  text-align: center;
+}
+
+.innerApp{
+  min-width: 90vw;
+}
+
+.createGameWrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1em;
+}
+
+.gameInfo{
+  display: grid;
+  grid-template-areas: "instruction instruction instruction instruction"
+  "prize cost odds contract"
+  "last last last last"
+  "next next next next";
+}
+
+.gameInfo > *{
+  margin: 2px;
+}
+
+.gameInputs{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.gameInputs > *{
+  margin: 2px;
+}
+
+.winningNumber{
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+
+  background: #5959ee;
+  border: 2px solid #3f3f9b;
+  text-align: center;
+  margin-right: 3px;
+}

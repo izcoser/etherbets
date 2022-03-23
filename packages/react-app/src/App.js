@@ -1,24 +1,75 @@
+//import BigNumber from 'bignumber.js';
+//import { ethers } from 'ethers';
 import { useQuery } from "@apollo/react-hooks";
-import { Contract } from "@ethersproject/contracts";
-import { getDefaultProvider } from "@ethersproject/providers";
+
+//import { getDefaultProvider } from "@ethersproject/providers";
 import React, { useEffect, useState } from "react";
 
-import { Body, Button, Header, Image, Link } from "./components";
+//import { Body, Button, Header, Image, Link} from "./components";
+import { Button } from "./components";
+import { EtherBets} from "./components/bets/etherbets";
+import { EtherPredictions } from "./components/predictions/etherpredictions";
 import logo from "./ethereumLogo.png";
 import useWeb3Modal from "./hooks/useWeb3Modal";
 
-import { addresses, abis } from "@project/contracts";
 import GET_TRANSFERS from "./graphql/subgraph";
 
-async function readOnChainData() {
-  // Should replace with the end-user wallet, e.g. Metamask
-  const defaultProvider = getDefaultProvider();
-  // Create an instance of an ethers.js Contract
-  // Read more about ethers.js on https://docs.ethers.io/v5/api/contract/contract/
-  const ceaErc20 = new Contract(addresses.ceaErc20, abis.erc20, defaultProvider);
-  // A pre-defined address that owns some CEAERC20 tokens
-  const tokenBalance = await ceaErc20.balanceOf("0x3f8CB69d9c0ED01923F11c829BaE4D9a4CB6c82C");
-  console.log({ tokenBalance: tokenBalance.toString() });
+import { addresses, abis } from "@project/contracts";
+import { Contract } from "@ethersproject/contracts";
+import { combination } from "./components/bets/utils";
+
+
+import './App.css';
+
+async function fetchPrediction(provider, address){
+  const contract = new Contract(address, abis.prediction, provider);
+  const details = await contract.getDetails();
+  const accounts = await provider.listAccounts();
+  const accountAddress = accounts[0];
+  const prediction = {
+    aggregator: details[0],
+    total: [Number(details[1][0]).toString(), Number(details[1][1]).toString()],
+    fetchedPrice: Number(details[2]).toString(),
+    targetPrice: Number(details[3]).toString(),
+    targetTime: Number(details[4]).toString(),
+    deadline: Number(details[5]).toString(),
+    obtainedPrice: details[6],
+    claimablePrize: await contract.claimablePrize(accountAddress),
+    userBet: [Number(details[8][0]).toString(), Number(details[8][1]).toString()],
+    address: address,
+  }
+
+  return prediction;
+}
+
+const predictions = []
+
+
+let factoryContract;
+let userCreatedGames = []
+const defaultGames = [addresses.simple, addresses.megaSena, addresses.lotoFacil, addresses.megaMillions]
+
+async function fetchGame(provider, address){
+  const contract = new Contract(address, abis.etherBets, provider);
+  const details = await contract.getDetails();
+  const game = {
+    name: details[0],
+    betCost: details[1].toString(),
+    maxNumber: details[2],
+    picks: details[3],
+    timeBetweenDraws: Number(details[4].toString()),
+    lastDrawTime: Number(details[5].toString()),
+    paused: details[6],
+    draw: Number(details[7].toString()),
+    prize: Number(details[8].toString()),
+    winningNumbers: details[9],
+    randomNumber: details[10],
+    randomNumberFetched: details[11],
+    address: address,
+    
+  }
+  game.odds = combination(game.maxNumber, game.picks);
+  return game;
 }
 
 function WalletButton({ provider, loadWeb3Modal, logoutOfWeb3Modal }) {
@@ -73,6 +124,7 @@ function WalletButton({ provider, loadWeb3Modal, logoutOfWeb3Modal }) {
 function App() {
   const { loading, error, data } = useQuery(GET_TRANSFERS);
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
+  const [games, gamesSet] = React.useState("");
 
   React.useEffect(() => {
     if (!loading && !error && data && data.transfers) {
@@ -80,27 +132,107 @@ function App() {
     }
   }, [loading, error, data]);
 
+  React.useEffect(() => {
+    if(!provider){
+      console.log('No provider.')
+      return;
+    }
+    else{
+      console.log('Provider loaded.');
+
+      factoryContract = new Contract(addresses.etherBetsFactory, abis.etherBetsFactory, provider);
+      factoryContract.on("NewLottery", (address, evt) => {
+        console.log({
+            address: address,
+            evt: evt
+          });
+        
+        userCreatedGames.push(address);
+        listenToBetEvents(address, provider);
+        fetchDefaultGames();
+      });
+
+    for(let a of defaultGames){
+        listenToBetEvents(a, provider);
+    }
+
+    function listenToBetEvents(a, provider){
+      const c = new Contract(a, abis.etherBets, provider);
+        c.on("BetPlaced", (sender, numbers, draw, evt) => {
+          console.log('Bet placed at ' + a);
+          console.log({
+            sender: sender,
+            numbers: numbers.toString(),
+            draw: Number(draw.toString()),
+          });
+          fetchDefaultGames();
+        });
+
+        c.on("RandomnessRequested", (draw, evt) => {
+          console.log('Randomness requested at %s for draw %s', a, Number(draw.toString()));
+          console.log({
+            draw: Number(draw.toString()),
+          });
+          fetchDefaultGames();
+        });
+
+        c.on("RandomnessFulfilled", (randomness, draw, evt) => {
+          console.log('Randomness fulfilled at %s for draw %s', a, Number(draw.toString()));
+          console.log({
+            draw: Number(draw.toString()),
+          });
+          fetchDefaultGames();
+        });
+
+        c.on("NumbersDrawn", (numbers, draw, evt) => {
+          console.log('Numbers %s drawn at %s for draw %s', numbers, a, draw);
+          console.log({
+            numbers: numbers.toString(),
+            draw: Number(draw.toString()),
+          });
+          fetchDefaultGames();
+        });
+      }
+    }
+
+    async function fetchDefaultGames(){
+      console.log("Fetching games...");
+      let fetchedGames = [];
+      for(const g of defaultGames.concat(userCreatedGames)){
+        const a = await fetchGame(provider, g);
+        fetchedGames.push(a);
+      }
+      gamesSet(fetchedGames);
+    }
+
+    async function fetchDefaultPredictions(){
+      console.log("Fetching example prediction...");
+      const p = await fetchPrediction(provider, addresses.predictionExample);
+      const e = await fetchPrediction(provider, addresses.predictionExample2);
+      predictions.push(p);
+      predictions.push(e);
+    }
+
+    fetchDefaultPredictions();
+    fetchDefaultGames();
+  }, [provider]);
+
   return (
-    <div>
-      <Header>
+    <div className="App">
+      <header className="App-header">
         <WalletButton provider={provider} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} />
-      </Header>
-      <Body>
-        <Image src={logo} alt="react-logo" />
-        <p>
-          Edit <code>packages/react-app/src/App.js</code> and save to reload.
-        </p>
-        {/* Remove the "hidden" prop and open the JavaScript console in the browser to see what this function does */}
-        <Button hidden onClick={() => readOnChainData()}>
-          Read On-Chain Balance
-        </Button>
-        <Link href="https://ethereum.org/developers/#getting-started" style={{ marginTop: "8px" }}>
-          Learn Ethereum
-        </Link>
-        <Link href="https://reactjs.org">Learn React</Link>
-        <Link href="https://thegraph.com/docs/quick-start">Learn The Graph</Link>
-      </Body>
-    </div>
+        <img src={logo} className="App-logo" alt="logo" />
+        <div className="innerApp">
+          <EtherBets provider={provider} games={games}>
+          </EtherBets>
+        </div>
+
+        <div className="innerApp">
+          <EtherPredictions provider={provider} predictions={predictions}>
+          </EtherPredictions>
+        </div>
+      </header>
+    </div>    
   );
 }
 

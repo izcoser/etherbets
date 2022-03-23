@@ -1,0 +1,78 @@
+[
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "lottery",
+          "type": "address"
+        }
+      ],
+      "name": "NewLottery",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "contracts",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_name",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_betCost",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "_maximumNumber",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint8",
+          "name": "_picks",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_timeBetweenDraws",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_VRF",
+          "type": "address"
+        }
+      ],
+      "name": "newEtherBets",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
