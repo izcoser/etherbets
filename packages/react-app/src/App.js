@@ -20,6 +20,7 @@ import { combination } from "./components/bets/utils";
 
 
 import './App.css';
+import { EtherContainer } from "./components/container/container";
 
 async function fetchPrediction(provider, address){
   const contract = new Contract(address, abis.prediction, provider);
@@ -41,9 +42,6 @@ async function fetchPrediction(provider, address){
 
   return prediction;
 }
-
-const predictions = []
-
 
 let factoryContract;
 let userCreatedGames = []
@@ -125,6 +123,7 @@ function App() {
   const { loading, error, data } = useQuery(GET_TRANSFERS);
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
   const [games, gamesSet] = React.useState("");
+  const [predictions, predictionsSet] = React.useState("");
 
   React.useEffect(() => {
     if (!loading && !error && data && data.transfers) {
@@ -207,10 +206,12 @@ function App() {
 
     async function fetchDefaultPredictions(){
       console.log("Fetching example prediction...");
+      let fetchedPredictions = [];
       const p = await fetchPrediction(provider, addresses.predictionExample);
-      const e = await fetchPrediction(provider, addresses.predictionExample2);
-      predictions.push(p);
-      predictions.push(e);
+      const p2 = await fetchPrediction(provider, addresses.predictionExample2);
+      fetchedPredictions.push(p);
+      fetchedPredictions.push(p2);
+      predictionsSet(fetchedPredictions);
     }
 
     fetchDefaultPredictions();
@@ -222,15 +223,7 @@ function App() {
       <header className="App-header">
         <WalletButton provider={provider} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} />
         <img src={logo} className="App-logo" alt="logo" />
-        <div className="innerApp">
-          <EtherBets provider={provider} games={games}>
-          </EtherBets>
-        </div>
-
-        <div className="innerApp">
-          <EtherPredictions provider={provider} predictions={predictions}>
-          </EtherPredictions>
-        </div>
+        <EtherContainer provider={provider} games={games} predictions={predictions}></EtherContainer>
       </header>
     </div>    
   );

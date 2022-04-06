@@ -15,7 +15,7 @@ export class Prediction extends React.Component{
       const prediction = this.props.value;
       const minimized = this.state.minimized;
       const unixTime = Math.round(+new Date() / 1000);
-      const obtainPrice = (unixTime > prediction.targetTime) && prediction.obtainedPrice == false;
+      const obtainPrice = (unixTime > prediction.targetTime) && prediction.obtainedPrice === false;
       const claimPrize = ethers.utils.formatEther(prediction.claimablePrize.toString());
       const targetDate = new Date(prediction.targetTime * 1000).toLocaleDateString("en-US") + ' ' + new Date(prediction.targetTime * 1000).toLocaleTimeString("en-US");
       const deadlineDate = new Date(prediction.deadline * 1000).toLocaleDateString("en-US") + ' ' + new Date(prediction.deadline * 1000).toLocaleTimeString("en-US");
@@ -42,7 +42,7 @@ export class Prediction extends React.Component{
                         : <></>
                 }
                 
-                {claimPrize > 0 ? (<input type="button" value={"Claim Prize: " + ' ' + claimPrize + ' ' + "ETH"} onClick={() => claimPrizeFunc(this.props.provider, prediction)}></input>) : (<></>)}
+                {claimPrize > 0 ? (<input type="button" value={"Claim Prize: " + claimPrize + " ETH"} onClick={() => claimPrizeFunc(this.props.provider, prediction)}></input>) : (<></>)}
                 {obtainPrice ? (<input type="button" value="Obtain Price" onClick={() => obtainPriceFunc(this.props.provider, prediction)}></input>) : (<></>)}
             </div>
             </div>)

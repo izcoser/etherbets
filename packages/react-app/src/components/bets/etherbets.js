@@ -7,16 +7,20 @@ import { addresses, abis } from "@project/contracts";
 import { Contract } from "@ethersproject/contracts";
 
 export class EtherBets extends React.Component{
+
     createGame = (game) => {
       createNewGame(this.props.provider, game);
     }
 
     render(){
+      const minimized = this.props.minimized;
       const games = this.props.games;
       return(
         <div>
-          <GameCreator creator={this.createGame} provider={this.props.provider}></GameCreator>   
-          <GameList games={games} provider={this.props.provider}></GameList>
+          {minimized ? (<></>) : (<>
+            <GameCreator creator={this.createGame} provider={this.props.provider}></GameCreator>   
+            <GameList games={games} provider={this.props.provider}></GameList></>
+          )}
         </div>
       );    
     }
