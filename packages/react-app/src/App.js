@@ -7,8 +7,6 @@ import React, { useEffect, useState } from "react";
 
 //import { Body, Button, Header, Image, Link} from "./components";
 import { Button } from "./components";
-import { EtherBets} from "./components/bets/etherbets";
-import { EtherPredictions } from "./components/predictions/etherpredictions";
 import logo from "./ethereumLogo.png";
 import useWeb3Modal from "./hooks/useWeb3Modal";
 
@@ -17,6 +15,7 @@ import GET_TRANSFERS from "./graphql/subgraph";
 import { addresses, abis } from "@project/contracts";
 import { Contract } from "@ethersproject/contracts";
 import { combination } from "./components/bets/utils";
+import rinkebyPricePairs from "./components/predictions/rinkebyPriceProxies.js";
 
 
 import './App.css';
@@ -38,6 +37,7 @@ async function fetchPrediction(provider, address){
     claimablePrize: await contract.claimablePrize(accountAddress),
     userBet: [Number(details[8][0]).toString(), Number(details[8][1]).toString()],
     address: address,
+    ticker: rinkebyPricePairs[details[0]][1],
   }
 
   return prediction;
@@ -209,8 +209,10 @@ function App() {
       let fetchedPredictions = [];
       const p = await fetchPrediction(provider, addresses.predictionExample);
       const p2 = await fetchPrediction(provider, addresses.predictionExample2);
+      const p3 = await fetchPrediction(provider, addresses.predictionExample3);
       fetchedPredictions.push(p);
       fetchedPredictions.push(p2);
+      fetchedPredictions.push(p3);
       predictionsSet(fetchedPredictions);
     }
 

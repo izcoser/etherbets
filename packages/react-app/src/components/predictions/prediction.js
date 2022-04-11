@@ -21,7 +21,7 @@ export class Prediction extends React.Component{
       const deadlineDate = new Date(prediction.deadline * 1000).toLocaleDateString("en-US") + ' ' + new Date(prediction.deadline * 1000).toLocaleTimeString("en-US");
       const betsOpen = unixTime < prediction.deadline;
       const total = Number(prediction.total[0]) + Number(prediction.total[1]);
-      const predictionClosingString = prediction.obtainedPrice ? "The price was $" + prediction.fetchedPrice  / 100000000.0 : "Prediction closes at " + deadlineDate;
+      const predictionClosingString = prediction.obtainedPrice ? "The price was $" + prediction.fetchedPrice  / 100000000.0 : "Bets close at " + deadlineDate;
 
       const innerMinimized = (<div className="predictionInner">
             <div className="predictionTotal">Total Bet: {ethers.utils.formatEther(total.toString()) + " ETH"}</div>
@@ -29,7 +29,7 @@ export class Prediction extends React.Component{
   
       const innerMaximized = (<div className="gameInner">
             <div className="predictionInfo">
-              <div className="predictionInstruction">Predict the price of ETH and win!</div>
+              <div className="predictionInstruction">Predict the price of {prediction.ticker} and win!</div>
               <div className="predictionPrize">Prize: {ethers.utils.formatEther(total.toString()) + " ETH"}</div>
               <div className="predictionDeadline">{predictionClosingString}</div>
               <div className="predictionContract"><a className="contractLink" href={"https://rinkeby.etherscan.io/address/" + prediction.address} target="_blank" rel="noreferrer">Contract Address</a></div>
@@ -50,7 +50,7 @@ export class Prediction extends React.Component{
         return (
           <div
             className={minimized ? "prediction minimized" : "prediction maximized"}>
-            <div className="predictionName" onClick={() => this.setState({minimized: !this.state.minimized})}>Will ETH be higher than ${prediction.targetPrice / 100000000.0 } at {targetDate}?</div>
+            <div className="predictionName" onClick={() => this.setState({minimized: !this.state.minimized})}>Will {prediction.ticker} be higher than ${prediction.targetPrice / 100000000.0 } at {targetDate}?</div>
             {minimized ? innerMinimized : innerMaximized}
           </div>
         );

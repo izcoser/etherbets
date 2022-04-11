@@ -1,0 +1,268 @@
+const rinkebyPricePairs = {
+  "ATOM / ETH": [
+    "18",
+    "0xc751E86208F0F8aF2d5CD0e29716cA7AD98B5eF5"
+  ],
+  "0xc751E86208F0F8aF2d5CD0e29716cA7AD98B5eF5": [
+    "18",
+    "ATOM / ETH"
+  ],
+  "ATOM / USD": [
+    "8",
+    "0x3539F2E214d8BC7E611056383323aC6D1b01943c"
+  ],
+  "0x3539F2E214d8BC7E611056383323aC6D1b01943c": [
+    "8",
+    "ATOM / USD"
+  ],
+  "AUD / USD": [
+    "8",
+    "0x21c095d2aDa464A294956eA058077F14F66535af"
+  ],
+  "0x21c095d2aDa464A294956eA058077F14F66535af": [
+    "8",
+    "AUD / USD"
+  ],
+  "BAT / USD": [
+    "8",
+    "0x031dB56e01f82f20803059331DC6bEe9b17F7fC9"
+  ],
+  "0x031dB56e01f82f20803059331DC6bEe9b17F7fC9": [
+    "8",
+    "BAT / USD"
+  ],
+  "BNB / USD": [
+    "8",
+    "0xcf0f51ca2cDAecb464eeE4227f5295F2384F84ED"
+  ],
+  "0xcf0f51ca2cDAecb464eeE4227f5295F2384F84ED": [
+    "8",
+    "BNB / USD"
+  ],
+  "BTC / ETH": [
+    "18",
+    "0x2431452A0010a43878bF198e170F6319Af6d27F4"
+  ],
+  "0x2431452A0010a43878bF198e170F6319Af6d27F4": [
+    "18",
+    "BTC / ETH"
+  ],
+  "BTC / USD": [
+    "8",
+    "0xECe365B379E1dD183B20fc5f022230C044d51404"
+  ],
+  "0xECe365B379E1dD183B20fc5f022230C044d51404": [
+    "8",
+    "BTC / USD"
+  ],
+  "CHF / USD": [
+    "8",
+    "0x5e601CF5EF284Bcd12decBDa189479413284E1d2"
+  ],
+  "0x5e601CF5EF284Bcd12decBDa189479413284E1d2": [
+    "8",
+    "CHF / USD"
+  ],
+  "DAI / ETH": [
+    "18",
+    "0x74825DbC8BF76CC4e9494d0ecB210f676Efa001D"
+  ],
+  "0x74825DbC8BF76CC4e9494d0ecB210f676Efa001D": [
+    "18",
+    "DAI / ETH"
+  ],
+  "DAI / USD": [
+    "8",
+    "0x2bA49Aaa16E6afD2a993473cfB70Fa8559B523cF"
+  ],
+  "0x2bA49Aaa16E6afD2a993473cfB70Fa8559B523cF": [
+    "8",
+    "DAI / USD"
+  ],
+  "ETH / USD": [
+    "8",
+    "0x8A753747A1Fa494EC906cE90E9f37563A8AF630e"
+  ],
+  "0x8A753747A1Fa494EC906cE90E9f37563A8AF630e": [
+    "8",
+    "ETH / USD"
+  ],
+  "EUR / USD": [
+    "8",
+    "0x78F9e60608bF48a1155b4B2A5e31F32318a1d85F"
+  ],
+  "0x78F9e60608bF48a1155b4B2A5e31F32318a1d85F": [
+    "8",
+    "EUR / USD"
+  ],
+  "GBP / USD": [
+    "8",
+    "0x7B17A813eEC55515Fb8F49F2ef51502bC54DD40F"
+  ],
+  "0x7B17A813eEC55515Fb8F49F2ef51502bC54DD40F": [
+    "8",
+    "GBP / USD"
+  ],
+  "GUSD / ETH": [
+    "18",
+    "0xb4c4a493AB6356497713A78FFA6c60FB53517c63"
+  ],
+  "0xb4c4a493AB6356497713A78FFA6c60FB53517c63": [
+    "18",
+    "GUSD / ETH"
+  ],
+  "GUSD / USD": [
+    "8",
+    "0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e"
+  ],
+  "0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e": [
+    "8",
+    "GUSD / USD"
+  ],
+  "ILV / ETH": [
+    "18",
+    "0x48731cF7e84dc94C5f84577882c14Be11a5B7456"
+  ],
+  "0x48731cF7e84dc94C5f84577882c14Be11a5B7456": [
+    "18",
+    "ILV / ETH"
+  ],
+  "JPY / USD": [
+    "8",
+    "0x3Ae2F46a2D84e3D5590ee6Ee5116B80caF77DeCA"
+  ],
+  "0x3Ae2F46a2D84e3D5590ee6Ee5116B80caF77DeCA": [
+    "8",
+    "JPY / USD"
+  ],
+  "LINK / ETH": [
+    "18",
+    "0xFABe80711F3ea886C3AC102c81ffC9825E16162E"
+  ],
+  "0xFABe80711F3ea886C3AC102c81ffC9825E16162E": [
+    "18",
+    "LINK / ETH"
+  ],
+  "LINK / USD": [
+    "8",
+    "0xd8bD0a1cB028a31AA859A21A3758685a95dE4623"
+  ],
+  "0xd8bD0a1cB028a31AA859A21A3758685a95dE4623": [
+    "8",
+    "LINK / USD"
+  ],
+  "LTC / USD": [
+    "8",
+    "0x4d38a35C2D87976F334c2d2379b535F1D461D9B4"
+  ],
+  "0x4d38a35C2D87976F334c2d2379b535F1D461D9B4": [
+    "8",
+    "LTC / USD"
+  ],
+  "MATIC / USD": [
+    "8",
+    "0x7794ee502922e2b723432DDD852B3C30A911F021"
+  ],
+  "0x7794ee502922e2b723432DDD852B3C30A911F021": [
+    "8",
+    "MATIC / USD"
+  ],
+  "REP / USD": [
+    "8",
+    "0x9331b55D9830EF609A2aBCfAc0FBCE050A52fdEa"
+  ],
+  "0x9331b55D9830EF609A2aBCfAc0FBCE050A52fdEa": [
+    "8",
+    "REP / USD"
+  ],
+  "SNX / USD": [
+    "8",
+    "0xE96C4407597CD507002dF88ff6E0008AB41266Ee"
+  ],
+  "0xE96C4407597CD507002dF88ff6E0008AB41266Ee": [
+    "8",
+    "SNX / USD"
+  ],
+  "TRX / USD": [
+    "8",
+    "0xb29f616a0d54FF292e997922fFf46012a63E2FAe"
+  ],
+  "0xb29f616a0d54FF292e997922fFf46012a63E2FAe": [
+    "8",
+    "TRX / USD"
+  ],
+  "USDC / ETH": [
+    "18",
+    "0xdCA36F27cbC4E38aE16C4E9f99D39b42337F6dcf"
+  ],
+  "0xdCA36F27cbC4E38aE16C4E9f99D39b42337F6dcf": [
+    "18",
+    "USDC / ETH"
+  ],
+  "USDC / USD": [
+    "8",
+    "0xa24de01df22b63d23Ebc1882a5E3d4ec0d907bFB"
+  ],
+  "0xa24de01df22b63d23Ebc1882a5E3d4ec0d907bFB": [
+    "8",
+    "USDC / USD"
+  ],
+  "XAG / USD": [
+    "8",
+    "0x9c1946428f4f159dB4889aA6B218833f467e1BfD"
+  ],
+  "0x9c1946428f4f159dB4889aA6B218833f467e1BfD": [
+    "8",
+    "XAG / USD"
+  ],
+  "XAU / USD": [
+    "8",
+    "0x81570059A0cb83888f1459Ec66Aad1Ac16730243"
+  ],
+  "0x81570059A0cb83888f1459Ec66Aad1Ac16730243": [
+    "8",
+    "XAU / USD"
+  ],
+  "XRP / USD": [
+    "8",
+    "0xc3E76f41CAbA4aB38F00c7255d4df663DA02A024"
+  ],
+  "0xc3E76f41CAbA4aB38F00c7255d4df663DA02A024": [
+    "8",
+    "XRP / USD"
+  ],
+  "XTZ / USD": [
+    "8",
+    "0xf57FCa8B932c43dFe560d3274262b2597BCD2e5A"
+  ],
+  "0xf57FCa8B932c43dFe560d3274262b2597BCD2e5A": [
+    "8",
+    "XTZ / USD"
+  ],
+  "ZRX / USD": [
+    "8",
+    "0xF7Bbe4D7d13d600127B6Aa132f1dCea301e9c8Fc"
+  ],
+  "0xF7Bbe4D7d13d600127B6Aa132f1dCea301e9c8Fc": [
+    "8",
+    "ZRX / USD"
+  ],
+  "sCEX / USD": [
+    "8",
+    "0x1a602D4928faF0A153A520f58B332f9CAFF320f7"
+  ],
+  "0x1a602D4928faF0A153A520f58B332f9CAFF320f7": [
+    "8",
+    "sCEX / USD"
+  ],
+  "sDEFI / USD": [
+    "8",
+    "0x0630521aC362bc7A19a4eE44b57cE72Ea34AD01c"
+  ],
+  "0x0630521aC362bc7A19a4eE44b57cE72Ea34AD01c": [
+    "8",
+    "sDEFI / USD"
+  ]
+};
+
+export default rinkebyPricePairs;
