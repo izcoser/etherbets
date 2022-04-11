@@ -8,7 +8,17 @@ export class Prediction extends React.Component{
       super(props);
       this.state = {
         minimized: true,
+        betAmount: '',
+        validBetAmount: false,
       }
+    }
+
+    updateBetAmount = (evt) => {
+      const val = evt.target.value
+      this.setState({
+        betAmount: val,
+        validBetAmount: !isNaN(val) && Number(val) > 0
+      });
     }
   
     render(){
@@ -22,6 +32,8 @@ export class Prediction extends React.Component{
       const betsOpen = unixTime < prediction.deadline;
       const total = Number(prediction.total[0]) + Number(prediction.total[1]);
       const predictionClosingString = prediction.obtainedPrice ? "The price was $" + prediction.fetchedPrice  / 100000000.0 : "Bets close at " + deadlineDate;
+      const validBetAmount = this.state.validBetAmount;
+      const betAmountETH = validBetAmount ? ethers.utils.parseEther(this.state.betAmount) : 0;
 
       const innerMinimized = (<div className="predictionInner">
             <div className="predictionTotal">Total Bet: {ethers.utils.formatEther(total.toString()) + " ETH"}</div>
@@ -36,8 +48,18 @@ export class Prediction extends React.Component{
             </div>
             <div className="predictionInputs">
                 {betsOpen ? (<>
-                    <input type="button" value="YES" onClick={() => placeBet(this.props.provider, prediction, true)}></input>
-                    <input type="button" value="NO" onClick={() => placeBet(this.props.provider, prediction, false)}></input>
+                    <input type="text" value={this.state.betAmount}
+                      onChange={(evt) => this.updateBetAmount(evt)}
+                      placeholder="Bet amount in ETH">
+                    </input>
+                    <input type="button" value="YES"
+                      disabled={!validBetAmount}
+                      onClick={() => placeBet(this.props.provider, prediction, true, betAmountETH)}>
+                    </input>
+                    <input type="button" value="NO"
+                      disabled={!validBetAmount}
+                      onClick={() => placeBet(this.props.provider, prediction, false, betAmountETH)}>
+                    </input>
                 </>)
                         : <></>
                 }
@@ -57,10 +79,10 @@ export class Prediction extends React.Component{
     }
   }
 
-async function placeBet(provider, prediction, higher){
+async function placeBet(provider, prediction, higher, betAmount){
   console.log('Trying to make prediction at contract' + prediction.address);
   const contract = new Contract(prediction.address, abis.prediction, provider.getSigner());
-  await contract.placeBet(higher, { value: 10000000000000 }).catch((err) => { console.log(err)})
+  await contract.placeBet(higher, { value: betAmount }).catch((err) => { console.log(err)})
 }
 
 async function claimPrizeFunc(provider, prediction){
