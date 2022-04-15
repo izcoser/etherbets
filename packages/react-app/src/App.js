@@ -132,29 +132,44 @@ function App() {
   }, [loading, error, data]);
 
   React.useEffect(() => {
-    if(!provider){
-      console.log('No provider.')
-      return;
-    }
-    else{
-      console.log('Provider loaded.');
+    async function fetchData(){
+      if(!provider){
+        console.log('No provider.')
+        return;
+      }
 
-      factoryContract = new Contract(addresses.etherBetsFactory, abis.etherBetsFactory, provider);
-      factoryContract.on("NewLottery", (address, evt) => {
-        console.log({
-            address: address,
-            evt: evt
-          });
+      else{
+        const network = await provider.getNetwork();
         
-        userCreatedGames.push(address);
-        listenToBetEvents(address, provider);
+        if(network.chainId !== 4){
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{chainId: '0x4'}],
+          })
+        }
+
+        console.log('Provider loaded.');
+  
+        factoryContract = new Contract(addresses.etherBetsFactory, abis.etherBetsFactory, provider);
+        factoryContract.on("NewLottery", (address, evt) => {
+          console.log({
+              address: address,
+              evt: evt
+            });
+          
+          userCreatedGames.push(address);
+          listenToBetEvents(address, provider);
+          fetchDefaultGames();
+        });
+  
+        for(let a of defaultGames){
+            listenToBetEvents(a, provider);
+        }
+
+        fetchDefaultPredictions();
         fetchDefaultGames();
-      });
-
-    for(let a of defaultGames){
-        listenToBetEvents(a, provider);
-    }
-
+      }
+    
     function listenToBetEvents(a, provider){
       const c = new Contract(a, abis.etherBets, provider);
         c.on("BetPlaced", (sender, numbers, draw, evt) => {
@@ -216,8 +231,7 @@ function App() {
       predictionsSet(fetchedPredictions);
     }
 
-    fetchDefaultPredictions();
-    fetchDefaultGames();
+    fetchData();
   }, [provider]);
 
   return (
