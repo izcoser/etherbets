@@ -6,77 +6,84 @@ export class GameCreator extends React.Component{
       super(props);
       this.state = {
         inputName: '',
+        validName: false,
         inputPicks: '',
         inputMaxNumber: '',
         inputBetCost: '',
         inputTimeBetweenDraws: '',
-        validName: false,
-        validPicks: false,
-        validMaxNumber: false,
-        validBetCost: false,
-        validTimeBetweenDraws: false,
         minimized: true,
       };
     }
   
     updateNameValue(evt){
-      const val = evt.target.value;
       this.setState({
-        inputName: val,
-        validName: (val.length  > 0 && val.length < 128),
+        inputName: evt.target.value.substring(0, 128),
+        validName: evt.target.value.length > 0,
       });
     }
   
     updatePicksValue(evt){
+      const re = /^[0-9\b]*$/;
       const val = evt.target.value;
-      this.setState({
-        inputPicks: val,
-        validPicks: parseInt(val) > 3 && parseInt(val) <= 255,
-      });
+
+      if(re.test(val) && Number(val) <= 255){
+        this.setState({
+          inputPicks: val,
+        });
+      }
     }
   
     updateMaxNumberValue(evt){
+      const re = /^[0-9\b]*$/;
       const val = evt.target.value;
-      this.setState({
-        inputMaxNumber: val,
-        validMaxNumber: parseInt(val) > 4 && parseInt(val) <= 255,
-      });
+      
+      if(re.test(val) && Number(val) <= 255){
+        this.setState({
+          inputMaxNumber: val,
+        });
+      }
     }
   
     updateBetCost(evt){
-      const val = evt.target.value;
-      this.setState({
-        inputBetCost: val,
-        validBetCost:  !isNaN(val) && Number(val) > 0,
-      });
+      const re = /^[0-9\b]*[.]?[0-9\b]*$/;
+      const val = evt.target.value.replace(',', '.');
+      if(re.test(val)){
+        this.setState({
+          inputBetCost: val,
+        });
+      }
     }
   
     updateTimeBetweenDraws(evt){
+      const re = /^[0-9\b]*$/;
       const val = evt.target.value;
-      this.setState({
-        inputTimeBetweenDraws: val,
-        validTimeBetweenDraws: !isNaN(val) && Number(val) > 0,
-      });
+      if(re.test(val)){
+        this.setState({
+          inputTimeBetweenDraws: val,
+        });
+      }
     }
   
     render(){
       const game = {
+        validInput: this.state.validName && Number(this.state.inputPicks) > 3
+        && Number(this.state.inputMaxNumber) > 4 && this.state.inputBetCost.length > 0
+        && this.state.inputTimeBetweenDraws.length > 0,
         name: this.state.inputName,
         picks: Number(this.state.inputPicks),
         maxNumber: Number(this.state.inputMaxNumber),
         betCost: this.state.inputBetCost,
         timeBetweenDraws: this.state.inputTimeBetweenDraws,
-        minimized: this.state.minimized,
       }
 
       const innerMaximized = (<>
-          <input className={boolToClass(this.state.validName)} type="text" onChange={evt => this.updateNameValue(evt)} value={this.state.inputName} placeholder="Game name"/>
-          <input className={boolToClass(this.state.validPicks)} type="text" onChange={evt => this.updatePicksValue(evt)} value={this.state.inputPicks} placeholder="Picks"/>
-          <input className={boolToClass(this.state.validMaxNumber)} type="text" onChange={evt => this.updateMaxNumberValue(evt)} value={this.state.inputMaxNumber} placeholder="Max Number"/>
-          <input className={boolToClass(this.state.validBetCost)} type="text" onChange={evt => this.updateBetCost(evt)} value={this.state.inputBetCost} placeholder="Bet Cost in ETH"/>
-          <input className={boolToClass(this.state.validTimeBetweenDraws)} type="text" onChange={evt => this.updateTimeBetweenDraws(evt)} value={this.state.inputTimeBetweenDraws} placeholder="Time between draws in seconds"/>
+          <input className="input-40" type="text" autoComplete="off" autoCorrect="off" onChange={evt => this.updateNameValue(evt)} value={this.state.inputName} placeholder="Game name"/>
+          <input className="input-40" type="text" inputMode="numeric" autoComplete="off" autoCorrect="off" pattern="^[0-9]*" onChange={evt => this.updatePicksValue(evt)} value={this.state.inputPicks} placeholder="Picks"/>
+          <input className="input-40" type="text" inputMode="numeric" autoComplete="off" autoCorrect="off" pattern="^[0-9]*" onChange={evt => this.updateMaxNumberValue(evt)} value={this.state.inputMaxNumber} placeholder="Max Number"/>
+          <input className="input-40" type="text" inputMode="decimal" autoComplete="off" autoCorrect="off" pattern="^[0-9]*[.,]?[0-9]*$" onChange={evt => this.updateBetCost(evt)} value={this.state.inputBetCost} placeholder="Bet Cost in ETH"/>
+          <input className="input-40" type="text" autoComplete="off" autoCorrect="off" onChange={evt => this.updateTimeBetweenDraws(evt)} value={this.state.inputTimeBetweenDraws} placeholder="Time Between Draws (sec)"/>
   
-          <input type="button" value="Create" onClick={() => this.props.creator(game)}/>
+          <input type="button" className="button-40" value="Create" onClick={() => this.props.creator(game)}/>
           </>);
       return(
         <>

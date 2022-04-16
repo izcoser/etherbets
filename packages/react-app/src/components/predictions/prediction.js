@@ -9,16 +9,18 @@ export class Prediction extends React.Component{
       this.state = {
         minimized: true,
         betAmount: '',
-        validBetAmount: false,
       }
     }
 
     updateBetAmount = (evt) => {
-      const val = evt.target.value
-      this.setState({
-        betAmount: val,
-        validBetAmount: !isNaN(val) && Number(val) > 0
-      });
+      const re = /^[0-9\b]*[.]?[0-9\b]*$/;
+      const val = evt.target.value.replace(',', '.');
+      
+      if(re.test(val)){
+        this.setState({
+          betAmount: val,
+        });
+      }
     }
   
     render(){
@@ -32,8 +34,7 @@ export class Prediction extends React.Component{
       const betsOpen = unixTime < prediction.deadline;
       const total = Number(prediction.total[0]) + Number(prediction.total[1]);
       const predictionClosingString = prediction.obtainedPrice ? "The price was $" + prediction.fetchedPrice  / 100000000.0 : "Bets close at " + deadlineDate;
-      const validBetAmount = this.state.validBetAmount;
-      const betAmountETH = validBetAmount ? ethers.utils.parseEther(this.state.betAmount) : 0;
+      const betAmountETH = this.state.betAmount === '' ? 0 : ethers.utils.parseEther(this.state.betAmount);
 
       const innerMinimized = (<div className="predictionInner">
             <div className="predictionTotal">Total Bet: {ethers.utils.formatEther(total.toString()) + " ETH"}</div>
@@ -48,24 +49,24 @@ export class Prediction extends React.Component{
             </div>
             <div className="predictionInputs">
                 {betsOpen ? (<>
-                    <input type="text" value={this.state.betAmount}
+                    <input type="text" className="input-40"
+                      inputMode="decimal" autoComplete="off" autoCorrect="off"
+                      pattern="^[0-9]*[.,]?[0-9]*$" value={this.state.betAmount}
                       onChange={(evt) => this.updateBetAmount(evt)}
                       placeholder="Bet amount in ETH">
                     </input>
-                    <input type="button" value="YES"
-                      disabled={!validBetAmount}
+                    <input type="button" className="button-40" value="YES"
                       onClick={() => placeBet(this.props.provider, prediction, true, betAmountETH)}>
                     </input>
-                    <input type="button" value="NO"
-                      disabled={!validBetAmount}
+                    <input type="button" className="button-40" value="NO"
                       onClick={() => placeBet(this.props.provider, prediction, false, betAmountETH)}>
                     </input>
                 </>)
                         : <></>
                 }
                 
-                {claimPrize > 0 ? (<input type="button" value={"Claim Prize: " + claimPrize + " ETH"} onClick={() => claimPrizeFunc(this.props.provider, prediction)}></input>) : (<></>)}
-                {obtainPrice ? (<input type="button" value="Obtain Price" onClick={() => obtainPriceFunc(this.props.provider, prediction)}></input>) : (<></>)}
+                {claimPrize > 0 ? (<input type="button" className="button-40" value={"Claim Prize: " + claimPrize + " ETH"} onClick={() => claimPrizeFunc(this.props.provider, prediction)}></input>) : (<></>)}
+                {obtainPrice ? (<input type="button" className="button-40" value="Obtain Price" onClick={() => obtainPriceFunc(this.props.provider, prediction)}></input>) : (<></>)}
             </div>
             </div>)
   

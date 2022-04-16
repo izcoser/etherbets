@@ -27,8 +27,14 @@ export class EtherBets extends React.Component{
 }
 
 export async function createNewGame(provider, game){
+  if(game.validInput){
     console.log('Creating new game:')
     console.log({game: game});
     const etherBetsFactory = new Contract(addresses.etherBetsFactory, abis.etherBetsFactory, provider.getSigner());
-    await etherBetsFactory.newEtherBets(game.name, ethers.utils.parseEther(game.betCost), game.maxNumber, game.picks, game.timeBetweenDraws, "0x63b9d642887dd6d7e35a822382a2cbf5eb49fdfb");
+    await etherBetsFactory.newEtherBets(game.name, ethers.utils.parseEther(game.betCost), game.maxNumber, game.picks, game.timeBetweenDraws, "0x63b9d642887dd6d7e35a822382a2cbf5eb49fdfb").catch((err) => { console.log(err)});
+  }
+  else{
+    console.log('Game input is invalid.');
+    console.log({game: game});
+  }   
 }

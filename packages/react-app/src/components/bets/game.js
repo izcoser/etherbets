@@ -40,8 +40,8 @@ export class Game extends React.Component{
             </div>
             <div className="gameInputs">
               <BetInput game={game} provider={this.props.provider}></BetInput>
-              {gameBegin ? (<input className="gameBegin" type="button" value="Begin Lottery" onClick={() => beginGame(this.props.provider, game)}></input>) : <></>}
-              {gameDraw ? (<input className="gameDraw" type="button" value="Draw Numbers" onClick={() => drawNumbers(this.props.provider, game)}></input>) : <></>}
+              {gameBegin ? (<input className="gameBegin button-40" type="button" value="Begin Lottery" onClick={() => beginGame(this.props.provider, game)}></input>) : <></>}
+              {gameDraw ? (<input className="gameDraw button-40" type="button" value="Draw Numbers" onClick={() => drawNumbers(this.props.provider, game)}></input>) : <></>}
             </div>
             </div>)
   

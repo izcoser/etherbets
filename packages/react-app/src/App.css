@@ -1,3 +1,32 @@
+html{
+  background-color: rgb(31, 37, 47) !important;
+}
+
+.walletButton{
+  font-size: 16px;
+  font-weight: 500;
+  background-color: rgba(21, 61, 111, 0.44);
+  border: 2px solid rgba(6, 12, 19, 0.44);
+  color: rgb(80, 144, 234);
+  margin: 0px 20px;
+  padding: 12px 24px;
+  border-radius: 8px;
+}
+
+#background-radial-gradient{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  width: 200vw;
+  height: 200vh;
+  background: radial-gradient(50% 50% at 50% 50%,#fc077d10 0,rgba(255,255,255,0) 100%);
+  transform: translate(-50vw,-100vh);
+  z-index: -1;
+}
+/*style="width: 200vw; height: 200vh; transform: translate(-50vw, -100vh);"
+*/
 .App {
   text-align: center;
 }
@@ -14,7 +43,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  /*background-color: #282c34;*/
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -38,8 +67,9 @@
 }
 
 .game{
-  border: 25px solid #3f3f9b;
+  border: 25px solid #13040b0f;
   padding-bottom: 20px;
+  border-radius: 15px;
 }
 
 .gameName, .createGame{
@@ -113,11 +143,11 @@
   justify-content: center;
   white-space: pre;
 }
-
+/*
 input[type="button"]{
   background-color: greenyellow;
 }
-
+*/
 input[type="button"]:hover{
   cursor: pointer;
 }
@@ -136,6 +166,10 @@ input[type="text"]{
   align-items: center;
   justify-content: center;
   margin: 1em;
+}
+
+.createGameWrapper > * {
+  margin-bottom: 0.2em;
 }
 
 .gameInfo{
@@ -160,7 +194,7 @@ input[type="text"]{
 .gameInputs > *{
   margin: 2px;
 }
-
+/*
 .winningNumber{
   border-radius: 50%;
   width: 36px;
@@ -171,4 +205,61 @@ input[type="text"]{
   border: 2px solid #3f3f9b;
   text-align: center;
   margin-right: 3px;
+}
+*/
+.winningNumber{
+  margin: 0 12px 0 0;
+  font-size: 2rem;
+  color: #fff;
+  background: #209869;
+  border-radius: 35px;
+  width: 36px;
+  height: 36px;
+  padding: 12px;
+  text-align: center;
+}
+
+.button-40, .input-40 {
+  background-color: #13040b3d;
+  border: 1px solid transparent;
+  border-radius: .75rem;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  flex: 0 0 auto;
+  /*font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  */font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  padding: .75rem 1.2rem;
+  text-align: center;
+  text-decoration: none #6B7280 solid;
+  text-decoration-thickness: auto;
+  transition-duration: .2s;
+  transition-property: background-color,border-color,color,fill,stroke;
+  transition-timing-function: cubic-bezier(.4, 0, 0.2, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: auto;
+}
+
+.input-40{
+  cursor: text !important
+}
+
+.button-40:hover {
+  background-color: #13040bd6;
+}
+
+.button-40:focus {
+  box-shadow: none;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+@media (min-width: 768px) {
+  .button-40 {
+    padding: .75rem 1.5rem;
+  }
 }

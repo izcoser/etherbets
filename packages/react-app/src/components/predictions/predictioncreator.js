@@ -26,15 +26,15 @@ export class PredictionCreator extends React.Component{
       const tickers = Object.keys(pricePairs);
 
       const innerMaximized = (<>
-        <select id="pricePairs" onChange={(evt) => this.setState({aggregator: evt.target.value})}>
+        <select id="pricePairs" className="button-40" onChange={(evt) => this.setState({aggregator: evt.target.value})}>
             {tickers.map((ticker, i) => <option value={pricePairs[ticker][1]} key={i}>            
                 {ticker}
             </option>)}
         </select>
-        <input type="text" onChange={evt => this.setState({targetPrice: evt.target.value})} placeholder="Target Price"/>
-        <input type="text" onChange={evt => this.setState({targetTime: evt.target.value})} placeholder="Target Time"/>
-        <input type="text" onChange={evt => this.setState({deadline: evt.target.value})} placeholder="Deadline"/>
-        <input type="button" value="Create" onClick={() => this.props.creator(prediction)}/>
+        <input type="text" className="input-40" onChange={evt => this.setState({targetPrice: evt.target.value})} placeholder="Target Price"/>
+        <input type="text" className="input-40" onChange={evt => this.setState({targetTime: evt.target.value})} placeholder="Target Time"/>
+        <input type="text" className="input-40" onChange={evt => this.setState({deadline: evt.target.value})} placeholder="Deadline"/>
+        <input type="button" className="button-40" value="Create" onClick={() => this.props.creator(prediction)}/>
           </>);
       return(
         <>

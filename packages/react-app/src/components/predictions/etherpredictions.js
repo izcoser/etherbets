@@ -30,5 +30,5 @@ export async function createNewPrediction(provider, prediction){
   console.log('Creating new prediction:')
   console.log({prediction: prediction});
   const predictionFactory = new Contract(addresses.predictionFactory, abis.predictionFactory, provider.getSigner());
-  await predictionFactory.newEtherPrediction(prediction.aggregator, prediction.targetPrice, prediction.targetTime, prediction.deadline);
+  await predictionFactory.newEtherPrediction(prediction.aggregator, prediction.targetPrice, prediction.targetTime, prediction.deadline).catch((err) => { console.log(err)});
 }

@@ -104,7 +104,8 @@ function WalletButton({ provider, loadWeb3Modal, logoutOfWeb3Modal }) {
   }, [account, provider, setAccount, setRendered]);
 
   return (
-    <Button
+    <button
+      className="walletButton"
       onClick={() => {
         if (!provider) {
           loadWeb3Modal();
@@ -115,7 +116,7 @@ function WalletButton({ provider, loadWeb3Modal, logoutOfWeb3Modal }) {
     >
       {rendered === "" && "Connect Wallet"}
       {rendered !== "" && rendered}
-    </Button>
+    </button>
   );
 }
 
@@ -237,11 +238,13 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <WalletButton provider={provider} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} />
+        <WalletButton provider={provider} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal}/>
         <img src={logo} className="App-logo" alt="logo" />
         <EtherContainer provider={provider} games={games} predictions={predictions}></EtherContainer>
       </header>
-    </div>    
+      <div id="background-radial-gradient">
+      </div>
+    </div>
   );
 }
 
