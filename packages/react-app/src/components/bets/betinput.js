@@ -1,5 +1,4 @@
 import React from "react";
-import { boolToClass } from "./utils";
 import { abis } from "@project/contracts";
 import { Contract } from "@ethersproject/contracts";
 

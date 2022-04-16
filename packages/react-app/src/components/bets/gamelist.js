@@ -6,7 +6,7 @@ export class GameList extends React.Component{
       const games = this.props.games || [];
       
       return (
-        <div>
+        <div className="gameList">
           {games.map((game, i) => <Game value={game} provider={this.props.provider} key={game.name}/>)}
         </div>
       );

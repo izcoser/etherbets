@@ -1,5 +1,4 @@
 import React from "react";
-import { boolToClass } from "./utils"
 
 export class GameCreator extends React.Component{
     constructor(props){
@@ -74,6 +73,7 @@ export class GameCreator extends React.Component{
         maxNumber: Number(this.state.inputMaxNumber),
         betCost: this.state.inputBetCost,
         timeBetweenDraws: this.state.inputTimeBetweenDraws,
+        minimized: this.state.minimized,
       }
 
       const innerMaximized = (<>

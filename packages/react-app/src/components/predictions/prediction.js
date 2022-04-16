@@ -36,14 +36,8 @@ export class Prediction extends React.Component{
       const predictionClosingString = prediction.obtainedPrice ? "The price was $" + prediction.fetchedPrice  / 100000000.0 : "Bets close at " + deadlineDate;
       const betAmountETH = this.state.betAmount === '' ? 0 : ethers.utils.parseEther(this.state.betAmount);
 
-      const innerMinimized = (<div className="predictionInner">
-            <div className="predictionTotal">Total Bet: {ethers.utils.formatEther(total.toString()) + " ETH"}</div>
-      </div>)
-  
       const innerMaximized = (<div className="gameInner">
             <div className="predictionInfo">
-              <div className="predictionInstruction">Predict the price of {prediction.ticker} and win!</div>
-              <div className="predictionPrize">Prize: {ethers.utils.formatEther(total.toString()) + " ETH"}</div>
               <div className="predictionDeadline">{predictionClosingString}</div>
               <div className="predictionContract"><a className="contractLink" href={"https://rinkeby.etherscan.io/address/" + prediction.address} target="_blank" rel="noreferrer">Contract Address</a></div>
             </div>
@@ -73,8 +67,9 @@ export class Prediction extends React.Component{
         return (
           <div
             className={minimized ? "prediction minimized" : "prediction maximized"}>
-            <div className="predictionName" onClick={() => this.setState({minimized: !this.state.minimized})}>Will {prediction.ticker} be higher than ${prediction.targetPrice / 100000000.0 } at {targetDate}?</div>
-            {minimized ? innerMinimized : innerMaximized}
+            <div className="predictionName" onClick={() => this.setState({minimized: !this.state.minimized})}>Will <span className="ticker">{prediction.ticker}</span> be higher than <span className="targetPrice">${prediction.targetPrice / 100000000.0 }</span> at {targetDate}?</div>
+            <div className="predictionPrize">Prize: {ethers.utils.formatEther(total.toString()) + " ETH"}</div>
+            {minimized ? <></> : innerMaximized}
           </div>
         );
     }

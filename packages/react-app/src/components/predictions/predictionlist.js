@@ -6,7 +6,7 @@ export class PredictionList extends React.Component{
       const predictions = this.props.predictions || [];
       
       return (
-        <div>
+        <div className="gameList">
           {predictions.map((prediction, i) => <Prediction value={prediction} provider={this.props.provider} key={prediction.targetPrice + i}/>)}
         </div>
       );

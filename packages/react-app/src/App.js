@@ -6,7 +6,7 @@ import { useQuery } from "@apollo/react-hooks";
 import React, { useEffect, useState } from "react";
 
 //import { Body, Button, Header, Image, Link} from "./components";
-import { Button } from "./components";
+//import { Button } from "./components";
 import logo from "./ethereumLogo.png";
 import useWeb3Modal from "./hooks/useWeb3Modal";
 

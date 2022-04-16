@@ -35,13 +35,13 @@ html{
   height: 40vmin;
   pointer-events: none;
 }
-
+/*
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+*/
 .App-header {
   /*background-color: #282c34;*/
   min-height: 100vh;
@@ -66,17 +66,21 @@ html{
   }
 }
 
-.game{
-  border: 25px solid #13040b0f;
+.game, .prediction{
+  border: 25px solid rgb(25, 27, 31);
   padding-bottom: 20px;
   border-radius: 15px;
 }
 
-.gameName, .createGame{
+.game:not(.minimized), .prediction:not(.minimized){
+  border: 25px solid rgb(47, 52, 60);
+}
+
+.gameName, .createGame, .ticker, .targetPrice, .faqQuestion{
   font-weight: bolder;
 }
 
-.gameName:hover, .createGame:hover{
+.gameName:hover, .createGame:hover, .predictionName:hover{
   cursor: pointer;
 }
 
@@ -103,13 +107,11 @@ html{
 }
 
 .gamePicks{
-  /*grid-area: picks;*/
   font-weight: bold;
   color: greenyellow;
 }
 
 .gameMax{
-  /*grid-area: max;*/
   font-weight: bold;
   color: greenyellow;
 }
@@ -143,11 +145,7 @@ html{
   justify-content: center;
   white-space: pre;
 }
-/*
-input[type="button"]{
-  background-color: greenyellow;
-}
-*/
+
 input[type="button"]:hover{
   cursor: pointer;
 }
@@ -168,8 +166,12 @@ input[type="text"]{
   margin: 1em;
 }
 
-.createGameWrapper > * {
+.createGameWrapper > *, .gameList > *, .faq > *{
   margin-bottom: 0.2em;
+}
+
+.faq{
+  margin: 1em;
 }
 
 .gameInfo{
@@ -194,19 +196,7 @@ input[type="text"]{
 .gameInputs > *{
   margin: 2px;
 }
-/*
-.winningNumber{
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  padding: 8px;
 
-  background: #5959ee;
-  border: 2px solid #3f3f9b;
-  text-align: center;
-  margin-right: 3px;
-}
-*/
 .winningNumber{
   margin: 0 12px 0 0;
   font-size: 2rem;
@@ -262,4 +252,51 @@ input[type="text"]{
   .button-40 {
     padding: .75rem 1.5rem;
   }
+}
+
+.navBar{
+  justify-self: center;
+  background-color: rgb(25, 27, 31);
+  width: fit-content;
+  padding: 2px;
+  border-radius: 16px;
+  display: grid;
+  grid-auto-flow: column;
+  gap: 10px;
+  overflow: auto;
+  -moz-box-align: center;
+  align-items: center;
+}
+
+.navLink{
+  display: flex;
+  flex-flow: row nowrap;
+  border-radius: 3rem;
+  outline: currentcolor none medium;
+  cursor: pointer;
+  text-decoration: none;
+  color: rgb(195, 197, 203);
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 8px 12px;
+  word-break: break-word;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.navLink.active{
+  border-radius: 14px;
+  font-weight: 600;
+  -moz-box-pack: center;
+  justify-content: center;
+  color: rgb(255, 255, 255);
+  background-color: rgb(33, 36, 41);
+}
+
+.faqAnswer{
+  font-size: calc(4px + 2vmin);
+  white-space: pre-wrap;
+  max-width: 90vw;
+  text-align: justify;
+  text-justify: inter-word;
 }
