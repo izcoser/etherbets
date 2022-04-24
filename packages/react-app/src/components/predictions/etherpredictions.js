@@ -1,6 +1,7 @@
 import React from "react";
 import { PredictionList } from "./predictionlist";
 import { PredictionCreator } from "./predictioncreator";
+import { ContractImporter } from "../container/contractimporter";
 
 import { addresses, abis } from "@project/contracts";
 import { Contract } from "@ethersproject/contracts";
@@ -13,11 +14,13 @@ export class EtherPredictions extends React.Component{
     render(){
       const minimized = this.props.minimized;
       const predictions = this.props.predictions;
+      const setPredictions = this.props.setPredictions;
       return(
         <div>
           {minimized ? (<></>) :
           (<>
             <PredictionCreator creator={this.createPrediction} provider={this.props.provider}></PredictionCreator>
+            <ContractImporter data={predictions} setContracts={setPredictions} provider={this.props.provider} title={"Import a New Price Bet"}></ContractImporter>
             <PredictionList predictions={predictions} provider={this.props.provider}></PredictionList>
           </>)
           }

@@ -15,7 +15,9 @@ export class EtherContainer extends React.Component{
     render(){
         const provider = this.props.provider;
         const games = this.props.games;
+        const setGames = this.props.setGames;
         const predictions = this.props.predictions;
+        const setPredictions = this.props.setPredictions;
         const app = this.state.app;
 
         return(
@@ -26,12 +28,12 @@ export class EtherContainer extends React.Component{
                 <a href="#/faq" className={"navLink" + (app === "faq" ? " active" : "")} onClick={() => this.setState({app: 'faq'})}>FAQ</a>
             </div>
             <div className="innerApp">
-                <EtherBets provider={provider} games={games} minimized={app !== 'lottery'}>
+                <EtherBets provider={provider} games={games} setGames={setGames} minimized={app !== 'lottery'}>
                 </EtherBets>
             </div>
 
             <div className="innerApp">
-                <EtherPredictions provider={provider} predictions={predictions} minimized={app !== 'predictions'}>
+                <EtherPredictions provider={provider} predictions={predictions} setPredictions={setPredictions} minimized={app !== 'predictions'}>
                 </EtherPredictions>
             </div>
             {app !== 'faq' ? (<></>) : 

@@ -43,10 +43,6 @@ async function fetchPrediction(provider, address){
   return prediction;
 }
 
-let factoryContract;
-let userCreatedGames = []
-const defaultGames = [addresses.simple, addresses.megaSena, addresses.lotoFacil, addresses.megaMillions]
-
 async function fetchGame(provider, address){
   const contract = new Contract(address, abis.etherBets, provider);
   const details = await contract.getDetails();
@@ -123,8 +119,10 @@ function WalletButton({ provider, loadWeb3Modal, logoutOfWeb3Modal }) {
 function App() {
   const { loading, error, data } = useQuery(GET_TRANSFERS);
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
-  const [games, gamesSet] = React.useState("");
-  const [predictions, predictionsSet] = React.useState("");
+  const [games, gamesSet] = React.useState([]);
+  const [gameAddresses, gameAddressesSet] = React.useState([addresses.simple, addresses.megaSena, addresses.lotoFacil, addresses.megaMillions]);
+  const [predictions, predictionsSet] = React.useState([]);
+  const [predAddresses, predAddressesSet] = React.useState([addresses.predictionExample, addresses.predictionExample2, addresses.predictionExample3]);
 
   React.useEffect(() => {
     if (!loading && !error && data && data.transfers) {
@@ -151,24 +149,24 @@ function App() {
 
         console.log('Provider loaded.');
   
-        factoryContract = new Contract(addresses.etherBetsFactory, abis.etherBetsFactory, provider);
+        const factoryContract = new Contract(addresses.etherBetsFactory, abis.etherBetsFactory, provider);
         factoryContract.on("NewLottery", (address, evt) => {
           console.log({
               address: address,
               evt: evt
             });
           
-          userCreatedGames.push(address);
+          gameAddressesSet(gameAddresses.concat(address));
           listenToBetEvents(address, provider);
-          fetchDefaultGames();
+          fetchGames();
         });
   
-        for(let a of defaultGames){
+        for(let a of gameAddresses){
             listenToBetEvents(a, provider);
         }
 
-        fetchDefaultPredictions();
-        fetchDefaultGames();
+        fetchPredictions();
+        fetchGames();
       }
     
     function listenToBetEvents(a, provider){
@@ -180,7 +178,7 @@ function App() {
             numbers: numbers.toString(),
             draw: Number(draw.toString()),
           });
-          fetchDefaultGames();
+          fetchGames();
         });
 
         c.on("RandomnessRequested", (draw, evt) => {
@@ -188,7 +186,7 @@ function App() {
           console.log({
             draw: Number(draw.toString()),
           });
-          fetchDefaultGames();
+          fetchGames();
         });
 
         c.on("RandomnessFulfilled", (randomness, draw, evt) => {
@@ -196,7 +194,7 @@ function App() {
           console.log({
             draw: Number(draw.toString()),
           });
-          fetchDefaultGames();
+          fetchGames();
         });
 
         c.on("NumbersDrawn", (numbers, draw, evt) => {
@@ -205,42 +203,40 @@ function App() {
             numbers: numbers.toString(),
             draw: Number(draw.toString()),
           });
-          fetchDefaultGames();
+          fetchGames();
         });
       }
     }
 
-    async function fetchDefaultGames(){
+    async function fetchGames(){
       console.log("Fetching games...");
       let fetchedGames = [];
-      for(const g of defaultGames.concat(userCreatedGames)){
-        const a = await fetchGame(provider, g);
-        fetchedGames.push(a);
+      for(const a of gameAddresses){
+        const g = await fetchGame(provider, a);
+        fetchedGames.push(g);
       }
       gamesSet(fetchedGames);
     }
 
-    async function fetchDefaultPredictions(){
+    async function fetchPredictions(){
       console.log("Fetching example prediction...");
       let fetchedPredictions = [];
-      const p = await fetchPrediction(provider, addresses.predictionExample);
-      const p2 = await fetchPrediction(provider, addresses.predictionExample2);
-      const p3 = await fetchPrediction(provider, addresses.predictionExample3);
-      fetchedPredictions.push(p);
-      fetchedPredictions.push(p2);
-      fetchedPredictions.push(p3);
+      for(const a of predAddresses){
+        const p = await fetchPrediction(provider, a);
+        fetchedPredictions.push(p);
+      }
       predictionsSet(fetchedPredictions);
     }
 
     fetchData();
-  }, [provider]);
+  }, [provider, gameAddresses, predAddresses]);
 
   return (
     <div className="App">
       <header className="App-header">
         <WalletButton provider={provider} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal}/>
         <img src={logo} className="App-logo" alt="logo" />
-        <EtherContainer provider={provider} games={games} predictions={predictions}></EtherContainer>
+        <EtherContainer provider={provider} games={games} setGames={gameAddressesSet} predictions={predictions} setPredictions={predAddressesSet}></EtherContainer>
       </header>
       <div id="background-radial-gradient">
       </div>

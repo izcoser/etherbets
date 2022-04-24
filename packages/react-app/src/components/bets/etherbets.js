@@ -1,6 +1,7 @@
 import React from "react";
 import { GameCreator } from "./gamecreator";
 import { GameList } from "./gamelist";
+import { ContractImporter } from "../container/contractimporter";
 
 import { ethers } from "ethers";
 import { addresses, abis } from "@project/contracts";
@@ -15,10 +16,12 @@ export class EtherBets extends React.Component{
     render(){
       const minimized = this.props.minimized;
       const games = this.props.games;
+      const setGames = this.props.setGames;
       return(
         <div>
           {minimized ? (<></>) : (<>
-            <GameCreator creator={this.createGame} provider={this.props.provider}></GameCreator>   
+            <GameCreator creator={this.createGame} provider={this.props.provider}></GameCreator>
+            <ContractImporter data={games} setContracts={setGames} provider={this.props.provider} title={"Import a New Game"}></ContractImporter>
             <GameList games={games} provider={this.props.provider}></GameList></>
           )}
         </div>
