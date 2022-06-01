@@ -33,7 +33,7 @@ export class Prediction extends React.Component{
       const deadlineDate = new Date(prediction.deadline * 1000).toLocaleDateString("en-US") + ' ' + new Date(prediction.deadline * 1000).toLocaleTimeString("en-US");
       const betsOpen = unixTime < prediction.deadline;
       const total = Number(prediction.total[0]) + Number(prediction.total[1]);
-      const predictionClosingString = prediction.obtainedPrice ? "The price was $" + prediction.fetchedPrice  / 100000000.0 : "Bets close at " + deadlineDate;
+      const predictionClosingString = prediction.obtainedPrice ? "The value was " + prediction.fetchedPrice  / 100000000.0 : "Bets close at " + deadlineDate;
       const betAmountETH = this.state.betAmount === '' ? 0 : ethers.utils.parseEther(this.state.betAmount);
 
       const innerMaximized = (<div className="gameInner">
@@ -67,7 +67,7 @@ export class Prediction extends React.Component{
         return (
           <div
             className={minimized ? "prediction minimized" : "prediction maximized"}>
-            <div className="predictionName" onClick={() => this.setState({minimized: !this.state.minimized})}>Will <span className="ticker">{prediction.ticker}</span> be higher than <span className="targetPrice">${prediction.targetPrice / 100000000.0 }</span> at {targetDate}?</div>
+            <div className="predictionName" onClick={() => this.setState({minimized: !this.state.minimized})}>Will <span className="ticker">{prediction.ticker}</span> be higher than <span className="targetPrice">{prediction.targetPrice / 100000000.0 }</span> at {targetDate}?</div>
             <div className="predictionPrize">Prize: {ethers.utils.formatEther(total.toString()) + " ETH"}</div>
             {minimized ? <></> : innerMaximized}
           </div>
