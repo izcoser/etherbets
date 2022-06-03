@@ -1,4 +1,10 @@
-This project was bootstrapped with [Create Eth App](https://github.com/paulrberg/create-eth-app).
+## Etherbets
+
+Frontend for [ethebets-contracts](https://github.com/izcoser/etherbets-contracts). 
+
+Decentralized, trustless betting platform powered by smart contracts and ChainLINK  oracles. Ethereum Virtual Machine compatible.
+
+Bootstrapped with [Create Eth App](https://github.com/paulrberg/create-eth-app).
 
 ## Project Structure
 
