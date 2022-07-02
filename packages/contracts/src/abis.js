@@ -4,6 +4,8 @@ import etherBetsFactoryAbi from "./abis/etherBetsFactoryAbi.json";
 import etherBetsAbi from "./abis/etherBetsAbi.json";
 import predictionAbi from "./abis/predictionAbi.json";
 import predictionFactoryAbi from "./abis/predictionFactoryAbi.json";
+import rundownConsumerAbi from "./abis/rundownConsumerAbi.json";
+import sportsDataConsumerAbi from "./abis/sportsDataConsumerAbi.json";
 
 const abis = {
   erc20: erc20Abi,
@@ -12,6 +14,8 @@ const abis = {
   etherBets: etherBetsAbi,
   prediction: predictionAbi,
   predictionFactory: predictionFactoryAbi,
+  rundownConsumer: rundownConsumerAbi,
+  sportsDataConsumer: sportsDataConsumerAbi,
 };
 
 export default abis;
