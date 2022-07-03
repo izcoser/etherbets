@@ -18,11 +18,13 @@ export class EtherPredictions extends React.Component{
       return(
         <div>
           {minimized ? (<></>) :
+           predictions.length > 0 ?
           (<>
             <PredictionCreator creator={this.createPrediction} provider={this.props.provider}></PredictionCreator>
             <ContractImporter data={predictions} setContracts={setPredictions} provider={this.props.provider} title={"Import a New Price Bet"}></ContractImporter>
             <PredictionList predictions={predictions} provider={this.props.provider}></PredictionList>
-          </>)
+          </>) :
+          (<div class="switchNetworks">There's nothing here. Switch to the <span class="ticker">Rinkeby</span> network!</div>)
           }
         </div>
       );

@@ -14,10 +14,12 @@ export class EtherSport extends React.Component{
       return(
         <div>
           {minimized ? (<></>) :
+           sports.length > 0 ?
           (<>
             <ContractImporter data={sports} setContracts={setSports} provider={this.props.provider} title={"Import a New Sport Bet"}></ContractImporter>
             <SportList sports={sports} provider={this.props.provider}></SportList>
-          </>)
+          </>) :
+          (<div class="switchNetworks">There's nothing here. Switch to the <span class="ticker">Kovan</span> network!</div>)
           }
         </div>
       );

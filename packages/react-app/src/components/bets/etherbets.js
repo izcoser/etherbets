@@ -19,11 +19,15 @@ export class EtherBets extends React.Component{
       const setGames = this.props.setGames;
       return(
         <div>
-          {minimized ? (<></>) : (<>
+          {minimized ? (<></>) : 
+           games.length > 0 ?
+          (<>
             <GameCreator creator={this.createGame} provider={this.props.provider}></GameCreator>
             <ContractImporter data={games} setContracts={setGames} provider={this.props.provider} title={"Import a New Lottery"}></ContractImporter>
             <GameList games={games} provider={this.props.provider}></GameList></>
-          )}
+          ) :
+          (<div class="switchNetworks">There's nothing here. Switch to the <span class="ticker">Rinkeby</span> network!</div>)
+          }
         </div>
       );    
     }

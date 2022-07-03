@@ -8,9 +8,11 @@ html{
   background-color: rgba(21, 61, 111, 0.44);
   border: 2px solid rgba(6, 12, 19, 0.44);
   color: rgb(80, 144, 234);
-  margin: 0px 20px;
   padding: 12px 24px;
   border-radius: 8px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }
 
 #background-radial-gradient{
@@ -21,7 +23,7 @@ html{
   pointer-events: none;
   width: 200vw;
   height: 200vh;
-  background: radial-gradient(50% 50% at 50% 50%,#fc077d10 0,rgba(255,255,255,0) 100%);
+  background: radial-gradient(50% 50% at 50% 50%,#26fc074f 0,rgba(255,255,255,0) 100%);
   transform: translate(-50vw,-100vh);
   z-index: -1;
 }
@@ -44,7 +46,6 @@ html{
 */
 .App-header {
   /*background-color: #282c34;*/
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -73,7 +74,7 @@ html{
 }
 
 .game:not(.minimized), .prediction:not(.minimized){
-  border: 25px solid rgb(47, 52, 60);
+  border: 25px solid rgba(65, 247, 0, 0.17);
 }
 
 .gameName, .createGame, .ticker, .targetPrice, .faqQuestion{
@@ -266,6 +267,7 @@ input[type="text"]{
   overflow: auto;
   -moz-box-align: center;
   align-items: center;
+  margin: 10px;
 }
 
 .navLink{
@@ -299,4 +301,9 @@ input[type="text"]{
   max-width: 90vw;
   text-align: justify;
   text-justify: inter-word;
+  margin-bottom: 20px;
+}
+
+.switchNetworks{
+  margin-top: 2em;
 }

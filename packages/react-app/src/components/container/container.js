@@ -22,6 +22,7 @@ export class EtherContainer extends React.Component{
         const sports = this.props.sports;
         const setSports = this.props.setSports;
         const app = this.state.app;
+        const logo = this.props.logo;
 
         return(
         <>
@@ -31,6 +32,7 @@ export class EtherContainer extends React.Component{
                 <a href="#/sportbets" className={"navLink" + (app === "sport" ? " active" : "")} onClick={() => this.setState({app: 'sport'})}>Sport Bets</a>
                 <a href="#/faq" className={"navLink" + (app === "faq" ? " active" : "")} onClick={() => this.setState({app: 'faq'})}>FAQ</a>
             </div>
+            <img src={logo} className="App-logo" alt="logo" />
             <div className="innerApp">
                 <EtherBets provider={provider} games={games} setGames={setGames} minimized={app !== 'lottery'}>
                 </EtherBets>

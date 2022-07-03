@@ -93,11 +93,11 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <WalletButton provider={provider} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} />
-                <img src={logo} className="App-logo" alt="logo" />
                 <EtherContainer provider={provider}
                     games={games} setGames={gameAddressesSet}
                     predictions={predictions} setPredictions={predAddressesSet}
-                    sports={sports} setSports={sportAddressesSet}></EtherContainer>
+                    sports={sports} setSports={sportAddressesSet}
+                    logo={logo}></EtherContainer>
             </header>
             <div id="background-radial-gradient">
             </div>
