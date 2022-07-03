@@ -25,6 +25,7 @@ export class EtherContainer extends React.Component{
             <div className="navBar">
                 <a href="#/lottery" className={"navLink" + (app === "lottery" ? " active" : "")} onClick={() => this.setState({app: 'lottery'})}>Lottery</a>
                 <a href="#/pricebets" className={"navLink" + (app === "predictions" ? " active" : "")} onClick={() => this.setState({app: 'predictions'})}>Price Bets</a>
+                <a href="#/sportbets" className={"navLink" + (app === "sport" ? " active" : "")} onClick={() => this.setState({app: 'sport'})}>Sport Bets</a>
                 <a href="#/faq" className={"navLink" + (app === "faq" ? " active" : "")} onClick={() => this.setState({app: 'faq'})}>FAQ</a>
             </div>
             <div className="innerApp">
