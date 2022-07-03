@@ -21,7 +21,7 @@ export class EtherBets extends React.Component{
         <div>
           {minimized ? (<></>) : (<>
             <GameCreator creator={this.createGame} provider={this.props.provider}></GameCreator>
-            <ContractImporter data={games} setContracts={setGames} provider={this.props.provider} title={"Import a New Game"}></ContractImporter>
+            <ContractImporter data={games} setContracts={setGames} provider={this.props.provider} title={"Import a New Lottery"}></ContractImporter>
             <GameList games={games} provider={this.props.provider}></GameList></>
           )}
         </div>

@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 //import { Button } from "./components";
 import logo from "./ethereumLogo.png";
 import useWeb3Modal from "./hooks/useWeb3Modal";
+import fetchData from "./fetch/fetchData";
 
 import GET_TRANSFERS from "./graphql/subgraph";
 
@@ -16,278 +17,92 @@ import { addresses, abis } from "@project/contracts";
 import { Contract } from "@ethersproject/contracts";
 import { combination } from "./components/bets/utils";
 import rinkebyPricePairs from "./components/predictions/rinkebyPriceProxies.js";
-
-
 import './App.css';
 import { EtherContainer } from "./components/container/container";
 
-async function fetchSport(provider, address){
-  const contract = new Contract(address, abis.sportsBet, provider);
-  const accounts = await provider.listAccounts();
-  const accountAddress = accounts[0];
-  const details = await contract.getDetails(accountAddress);
-  const sport = {
-    total: [Number(details[0][0]).toString(), Number(details[0][1]).toString()],
-    userBet: [Number(details[1][0]).toString(), Number(details[1][1]).toString()],
-    claimablePrize: Number(details[2]).toString(),
-    fetchedSD: details[3],
-    fetchedRD: details[4],
-    homeTeam: details[5],
-    awayTeam: details[6],
-    homeScore: Number(details[7]).toString(),
-    awayScore: Number(details[8]).toString(),
-    gameDate: Number(details[9]),
-    /*
-    gameIdSD: ignored for now,
-    gameIdRD: ignored for now,
-    */
-    resultAggregated: details[12],
-    resultConsensus: details[13],
-    homeWinner: details[14],
-    address: address,
-  }
-
-  console.log({"sport": sport})
-
-  return sport;
-}
-
-async function fetchPrediction(provider, address){
-  const contract = new Contract(address, abis.prediction, provider);
-  const details = await contract.getDetails();
-  const accounts = await provider.listAccounts();
-  const accountAddress = accounts[0];
-  const prediction = {
-    aggregator: details[0],
-    total: [Number(details[1][0]).toString(), Number(details[1][1]).toString()],
-    fetchedPrice: Number(details[2]).toString(),
-    targetPrice: Number(details[3]).toString(),
-    targetTime: Number(details[4]).toString(),
-    deadline: Number(details[5]).toString(),
-    obtainedPrice: details[6],
-    claimablePrize: await contract.claimablePrize(accountAddress),
-    userBet: [Number(details[8][0]).toString(), Number(details[8][1]).toString()],
-    address: address,
-    ticker: rinkebyPricePairs[details[0]][1],
-  }
-
-  return prediction;
-}
-
-async function fetchGame(provider, address){
-  const contract = new Contract(address, abis.etherBets, provider);
-  const details = await contract.getDetails();
-  const game = {
-    name: details[0],
-    betCost: details[1].toString(),
-    maxNumber: details[2],
-    picks: details[3],
-    timeBetweenDraws: Number(details[4].toString()),
-    lastDrawTime: Number(details[5].toString()),
-    paused: details[6],
-    draw: Number(details[7].toString()),
-    prize: Number(details[8].toString()),
-    winningNumbers: details[9],
-    randomNumber: details[10],
-    randomNumberFetched: details[11],
-    address: address,
-    
-  }
-  game.odds = combination(game.maxNumber, game.picks);
-  return game;
-}
-
 function WalletButton({ provider, loadWeb3Modal, logoutOfWeb3Modal }) {
-  const [account, setAccount] = useState("");
-  const [rendered, setRendered] = useState("");
+    const [account, setAccount] = useState("");
+    const [rendered, setRendered] = useState("");
 
-  useEffect(() => {
-    async function fetchAccount() {
-      try {
-        if (!provider) {
-          return;
+    useEffect(() => {
+        async function fetchAccount() {
+            try {
+                if (!provider) {
+                    return;
+                }
+
+                // Load the user's accounts.
+                const accounts = await provider.listAccounts();
+                setAccount(accounts[0]);
+
+                // Resolve the ENS name for the first account.
+                //const name = await provider.lookupAddress(accounts[0]); Kovan doesn't support ENS, commenting out for now.
+                setRendered(account.substring(0, 6) + "..." + account.substring(36));
+
+            } catch (err) {
+                setAccount("");
+                setRendered("");
+                console.error(err);
+            }
         }
+        fetchAccount();
+    }, [account, provider, setAccount, setRendered]);
 
-        // Load the user's accounts.
-        const accounts = await provider.listAccounts();
-        setAccount(accounts[0]);
-
-        // Resolve the ENS name for the first account.
-        //const name = await provider.lookupAddress(accounts[0]); Kovan doesn't support ENS, commenting out for now.
-        setRendered(account.substring(0, 6) + "..." + account.substring(36));
-
-      } catch (err) {
-        setAccount("");
-        setRendered("");
-        console.error(err);
-      }
-    }
-    fetchAccount();
-  }, [account, provider, setAccount, setRendered]);
-
-  return (
-    <button
-      className="walletButton"
-      onClick={() => {
-        if (!provider) {
-          loadWeb3Modal();
-        } else {
-          logoutOfWeb3Modal();
-        }
-      }}
-    >
-      {rendered === "" && "Connect Wallet"}
-      {rendered !== "" && rendered}
-    </button>
-  );
+    return (
+        <button
+            className="walletButton"
+            onClick={() => {
+                if (!provider) {
+                    loadWeb3Modal();
+                } else {
+                    logoutOfWeb3Modal();
+                }
+            }}
+        >
+            {rendered === "" && "Connect Wallet"}
+            {rendered !== "" && rendered}
+        </button>
+    );
 }
 
 function App() {
-  const { loading, error, data } = useQuery(GET_TRANSFERS);
-  const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
-  const [games, gamesSet] = React.useState([]);
-  const [gameAddresses, gameAddressesSet] = React.useState([addresses.simple, addresses.megaSena, addresses.lotoFacil, addresses.megaMillions]);
-  const [predictions, predictionsSet] = React.useState([]);
-  const [predAddresses, predAddressesSet] = React.useState([addresses.predictionExample, addresses.predictionExample2, addresses.predictionExample3]);
-  const [sports, sportsSet] = React.useState([]);
-  const [sportAddresses, sportAddressesSet] = React.useState([addresses.sportExample]);
+    const { loading, error, data } = useQuery(GET_TRANSFERS);
+    const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
+    const [games, gamesSet] = React.useState([]);
+    const [gameAddresses, gameAddressesSet] = React.useState([addresses.simple, addresses.megaSena, addresses.lotoFacil, addresses.megaMillions]);
+    const [predictions, predictionsSet] = React.useState([]);
+    const [predAddresses, predAddressesSet] = React.useState([addresses.predictionExample, addresses.predictionExample2, addresses.predictionExample3]);
+    const [sports, sportsSet] = React.useState([]);
+    const [sportAddresses, sportAddressesSet] = React.useState([addresses.sportExample]);
 
-  React.useEffect(() => {
-    if (!loading && !error && data && data.transfers) {
-      console.log({ transfers: data.transfers });
-    }
-  }, [loading, error, data]);
-
-  React.useEffect(() => {
-    async function fetchData(){
-      if(!provider){
-        console.log('No provider.')
-        return;
-      }
-
-      else{
-        const network = await provider.getNetwork();
-        
-        if(network.chainId !== 4 && network.chainId !== 42){ // prompt switch to Rinkeby.
-          await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{chainId: '0x4'}],
-          })
+    React.useEffect(() => {
+        if (!loading && !error && data && data.transfers) {
+            console.log({ transfers: data.transfers });
         }
+    }, [loading, error, data]);
 
-        console.log('Provider loaded.');
-  
-        if(network.chainId === 4){
-          const factoryContract = new Contract(addresses.etherBetsFactory, abis.etherBetsFactory, provider);
-          factoryContract.on("NewLottery", (address, evt) => {
-            console.log({
-                address: address,
-                evt: evt
-              });
-            
-            gameAddressesSet(gameAddresses.concat(address));
-            listenToBetEvents(address, provider);
-            fetchGames();
-          });
-    
-          for(let a of gameAddresses){
-              listenToBetEvents(a, provider);
-          }
+    React.useEffect(() => {
+        fetchData(provider, gameAddresses, gamesSet, gameAddressesSet, predAddresses, predictionsSet, sportAddresses, sportsSet);
+    }, [provider, gameAddresses, predAddresses, sportAddresses]);
 
-          fetchPredictions();
-          fetchGames();
-        }
-        else if(network.chainId === 42){
-          fetchSports();
-        }
-      }
-    
-    function listenToBetEvents(a, provider){
-      const c = new Contract(a, abis.etherBets, provider);
-        c.on("BetPlaced", (sender, numbers, draw, evt) => {
-          console.log('Bet placed at ' + a);
-          console.log({
-            sender: sender,
-            numbers: numbers.toString(),
-            draw: Number(draw.toString()),
-          });
-          fetchGames();
-        });
+    React.useEffect(() => {
+        window.ethereum.on('chainChanged', (_chainId) => window.location.reload());
+    }, []);
 
-        c.on("RandomnessRequested", (draw, evt) => {
-          console.log('Randomness requested at %s for draw %s', a, Number(draw.toString()));
-          console.log({
-            draw: Number(draw.toString()),
-          });
-          fetchGames();
-        });
-
-        c.on("RandomnessFulfilled", (randomness, draw, evt) => {
-          console.log('Randomness fulfilled at %s for draw %s', a, Number(draw.toString()));
-          console.log({
-            draw: Number(draw.toString()),
-          });
-          fetchGames();
-        });
-
-        c.on("NumbersDrawn", (numbers, draw, evt) => {
-          console.log('Numbers %s drawn at %s for draw %s', numbers, a, draw);
-          console.log({
-            numbers: numbers.toString(),
-            draw: Number(draw.toString()),
-          });
-          fetchGames();
-        });
-      }
-    }
-
-    async function fetchGames(){
-      console.log("Fetching games...");
-      let fetchedGames = [];
-      for(const a of gameAddresses){
-        const g = await fetchGame(provider, a);
-        fetchedGames.push(g);
-      }
-      gamesSet(fetchedGames);
-    }
-
-    async function fetchPredictions(){
-      console.log("Fetching example prediction...");
-      let fetchedPredictions = [];
-      for(const a of predAddresses){
-        const p = await fetchPrediction(provider, a);
-        fetchedPredictions.push(p);
-      }
-      predictionsSet(fetchedPredictions);
-    }
-
-    async function fetchSports(){
-      console.log("Fetching sports...");
-      let fetchedSports = [];
-      for(const a of sportAddresses){
-        const s = await fetchSport(provider, a);
-        fetchedSports.push(s);
-      }
-      sportsSet(fetchedSports);
-    }
-
-    fetchData();
-  }, [provider, gameAddresses, predAddresses, sportAddresses]);
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <WalletButton provider={provider} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal}/>
-        <img src={logo} className="App-logo" alt="logo" />
-        <EtherContainer provider={provider}
-        games={games} setGames={gameAddressesSet}
-        predictions={predictions} setPredictions={predAddressesSet}
-        sports={sports} setSports={sportAddressesSet}></EtherContainer>
-      </header>
-      <div id="background-radial-gradient">
-      </div>
-    </div>
-  );
+    return (
+        <div className="App">
+            <header className="App-header">
+                <WalletButton provider={provider} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} />
+                <img src={logo} className="App-logo" alt="logo" />
+                <EtherContainer provider={provider}
+                    games={games} setGames={gameAddressesSet}
+                    predictions={predictions} setPredictions={predAddressesSet}
+                    sports={sports} setSports={sportAddressesSet}></EtherContainer>
+            </header>
+            <div id="background-radial-gradient">
+            </div>
+        </div>
+    );
 }
 
 export default App;

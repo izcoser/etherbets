@@ -77,7 +77,7 @@ export class GameCreator extends React.Component{
       }
 
       const innerMaximized = (<>
-          <input className="input-40" type="text" autoComplete="off" autoCorrect="off" onChange={evt => this.updateNameValue(evt)} value={this.state.inputName} placeholder="Game name"/>
+          <input className="input-40" type="text" autoComplete="off" autoCorrect="off" onChange={evt => this.updateNameValue(evt)} value={this.state.inputName} placeholder="Lottery name"/>
           <input className="input-40" type="text" inputMode="numeric" autoComplete="off" autoCorrect="off" pattern="^[0-9]*" onChange={evt => this.updatePicksValue(evt)} value={this.state.inputPicks} placeholder="Picks"/>
           <input className="input-40" type="text" inputMode="numeric" autoComplete="off" autoCorrect="off" pattern="^[0-9]*" onChange={evt => this.updateMaxNumberValue(evt)} value={this.state.inputMaxNumber} placeholder="Max Number"/>
           <input className="input-40" type="text" inputMode="decimal" autoComplete="off" autoCorrect="off" pattern="^[0-9]*[.,]?[0-9]*$" onChange={evt => this.updateBetCost(evt)} value={this.state.inputBetCost} placeholder="Bet Cost in ETH"/>
@@ -88,7 +88,7 @@ export class GameCreator extends React.Component{
       return(
         <>
         <div className="createGameWrapper">
-          <div className="createGame" onClick={() => this.setState({minimized: !this.state.minimized})}>Create a New Game</div>
+          <div className="createGame" onClick={() => this.setState({minimized: !this.state.minimized})}>Create a New Lottery</div>
           {game.minimized ? (<></>) : (innerMaximized)}
         </div>
         </>
