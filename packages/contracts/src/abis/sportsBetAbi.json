@@ -1,0 +1,565 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_link",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "_oracle",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_date",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint32",
+                "name": "_gameIdSD",
+                "type": "uint32"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "_gameIdRD",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "string",
+                "name": "_homeTeam",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_awayTeam",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "id",
+                "type": "bytes32"
+            }
+        ],
+        "name": "ChainlinkCancelled",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "id",
+                "type": "bytes32"
+            }
+        ],
+        "name": "ChainlinkFulfilled",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "bytes32",
+                "name": "id",
+                "type": "bytes32"
+            }
+        ],
+        "name": "ChainlinkRequested",
+        "type": "event"
+    },
+    {
+        "inputs": [],
+        "name": "aggregateResults",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "awayTeam",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "claimPrize",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "user",
+                "type": "address"
+            }
+        ],
+        "name": "claimablePrize",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "fetchedRD",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "fetchedSD",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_requestId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes[]",
+                "name": "_games",
+                "type": "bytes[]"
+            }
+        ],
+        "name": "fulfillGames",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_requestId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes32[]",
+                "name": "_result",
+                "type": "bytes32[]"
+            }
+        ],
+        "name": "fulfillSchedule",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "gameDate",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "gameIdRD",
+        "outputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "gameIdSD",
+        "outputs": [
+            {
+                "internalType": "uint32",
+                "name": "",
+                "type": "uint32"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "user",
+                "type": "address"
+            }
+        ],
+        "name": "getDetails",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "components": [
+                            {
+                                "internalType": "uint256",
+                                "name": "home",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "away",
+                                "type": "uint256"
+                            }
+                        ],
+                        "internalType": "struct EtherBaseballBets.Bet",
+                        "name": "total",
+                        "type": "tuple"
+                    },
+                    {
+                        "components": [
+                            {
+                                "internalType": "uint256",
+                                "name": "home",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "away",
+                                "type": "uint256"
+                            }
+                        ],
+                        "internalType": "struct EtherBaseballBets.Bet",
+                        "name": "userBet",
+                        "type": "tuple"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "claimablePrize",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "fetchedSD",
+                        "type": "bool"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "fetchedRD",
+                        "type": "bool"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "homeTeam",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "awayTeam",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint8",
+                        "name": "homeScore",
+                        "type": "uint8"
+                    },
+                    {
+                        "internalType": "uint8",
+                        "name": "awayScore",
+                        "type": "uint8"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "gameDate",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint32",
+                        "name": "gameIdSD",
+                        "type": "uint32"
+                    },
+                    {
+                        "internalType": "bytes32",
+                        "name": "gameIDRD",
+                        "type": "bytes32"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "resultsAggregated",
+                        "type": "bool"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "resultConsensus",
+                        "type": "bool"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "homeWinner",
+                        "type": "bool"
+                    }
+                ],
+                "internalType": "struct EtherBaseballBets.ContractDetails",
+                "name": "c",
+                "type": "tuple"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "homeTeam",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "homeWinner",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bool",
+                "name": "home",
+                "type": "bool"
+            }
+        ],
+        "name": "placeBet",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_specId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_payment",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_market",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_sportId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_date",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string[]",
+                "name": "_statusIds",
+                "type": "string[]"
+            },
+            {
+                "internalType": "string[]",
+                "name": "_gameIds",
+                "type": "string[]"
+            }
+        ],
+        "name": "requestGamesResolveWithFilters",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "requestResultFromRD",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "requestResultFromSD",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "resultConsensus",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "resultRD",
+        "outputs": [
+            {
+                "internalType": "bytes32",
+                "name": "gameId",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint8",
+                "name": "homeScore",
+                "type": "uint8"
+            },
+            {
+                "internalType": "uint8",
+                "name": "awayScore",
+                "type": "uint8"
+            },
+            {
+                "internalType": "uint8",
+                "name": "statusId",
+                "type": "uint8"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "resultSD",
+        "outputs": [
+            {
+                "internalType": "uint32",
+                "name": "gameId",
+                "type": "uint32"
+            },
+            {
+                "internalType": "uint8",
+                "name": "homeScore",
+                "type": "uint8"
+            },
+            {
+                "internalType": "uint8",
+                "name": "awayScore",
+                "type": "uint8"
+            },
+            {
+                "internalType": "bytes20",
+                "name": "status",
+                "type": "bytes20"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "resultsAggregated",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_oracle",
+                "type": "address"
+            }
+        ],
+        "name": "setOracle",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "total",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "home",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "away",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "withdrawLink",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+]

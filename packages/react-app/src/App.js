@@ -21,6 +21,37 @@ import rinkebyPricePairs from "./components/predictions/rinkebyPriceProxies.js";
 import './App.css';
 import { EtherContainer } from "./components/container/container";
 
+async function fetchSport(provider, address){
+  const contract = new Contract(address, abis.sportsBet, provider);
+  const accounts = await provider.listAccounts();
+  const accountAddress = accounts[0];
+  const details = await contract.getDetails(accountAddress);
+  const sport = {
+    total: [Number(details[0][0]).toString(), Number(details[0][1]).toString()],
+    userBet: [Number(details[1][0]).toString(), Number(details[1][1]).toString()],
+    claimablePrize: Number(details[2]).toString(),
+    fetchedSD: details[3],
+    fetchedRD: details[4],
+    homeTeam: details[5],
+    awayTeam: details[6],
+    homeScore: Number(details[7]).toString(),
+    awayScore: Number(details[8]).toString(),
+    gameDate: Number(details[9]),
+    /*
+    gameIdSD: ignored for now,
+    gameIdRD: ignored for now,
+    */
+    resultAggregated: details[12],
+    resultConsensus: details[13],
+    homeWinner: details[14],
+    address: address,
+  }
+
+  console.log({"sport": sport})
+
+  return sport;
+}
+
 async function fetchPrediction(provider, address){
   const contract = new Contract(address, abis.prediction, provider);
   const details = await contract.getDetails();
@@ -82,14 +113,9 @@ function WalletButton({ provider, loadWeb3Modal, logoutOfWeb3Modal }) {
         setAccount(accounts[0]);
 
         // Resolve the ENS name for the first account.
-        const name = await provider.lookupAddress(accounts[0]);
+        //const name = await provider.lookupAddress(accounts[0]); Kovan doesn't support ENS, commenting out for now.
+        setRendered(account.substring(0, 6) + "..." + account.substring(36));
 
-        // Render either the ENS name or the shortened account address.
-        if (name) {
-          setRendered(name);
-        } else {
-          setRendered(account.substring(0, 6) + "..." + account.substring(36));
-        }
       } catch (err) {
         setAccount("");
         setRendered("");
@@ -123,6 +149,8 @@ function App() {
   const [gameAddresses, gameAddressesSet] = React.useState([addresses.simple, addresses.megaSena, addresses.lotoFacil, addresses.megaMillions]);
   const [predictions, predictionsSet] = React.useState([]);
   const [predAddresses, predAddressesSet] = React.useState([addresses.predictionExample, addresses.predictionExample2, addresses.predictionExample3]);
+  const [sports, sportsSet] = React.useState([]);
+  const [sportAddresses, sportAddressesSet] = React.useState([addresses.sportExample]);
 
   React.useEffect(() => {
     if (!loading && !error && data && data.transfers) {
@@ -140,7 +168,7 @@ function App() {
       else{
         const network = await provider.getNetwork();
         
-        if(network.chainId !== 4){
+        if(network.chainId !== 4 && network.chainId !== 42){ // prompt switch to Rinkeby.
           await window.ethereum.request({
             method: 'wallet_switchEthereumChain',
             params: [{chainId: '0x4'}],
@@ -149,24 +177,29 @@ function App() {
 
         console.log('Provider loaded.');
   
-        const factoryContract = new Contract(addresses.etherBetsFactory, abis.etherBetsFactory, provider);
-        factoryContract.on("NewLottery", (address, evt) => {
-          console.log({
-              address: address,
-              evt: evt
-            });
-          
-          gameAddressesSet(gameAddresses.concat(address));
-          listenToBetEvents(address, provider);
-          fetchGames();
-        });
-  
-        for(let a of gameAddresses){
-            listenToBetEvents(a, provider);
-        }
+        if(network.chainId === 4){
+          const factoryContract = new Contract(addresses.etherBetsFactory, abis.etherBetsFactory, provider);
+          factoryContract.on("NewLottery", (address, evt) => {
+            console.log({
+                address: address,
+                evt: evt
+              });
+            
+            gameAddressesSet(gameAddresses.concat(address));
+            listenToBetEvents(address, provider);
+            fetchGames();
+          });
+    
+          for(let a of gameAddresses){
+              listenToBetEvents(a, provider);
+          }
 
-        fetchPredictions();
-        fetchGames();
+          fetchPredictions();
+          fetchGames();
+        }
+        else if(network.chainId === 42){
+          fetchSports();
+        }
       }
     
     function listenToBetEvents(a, provider){
@@ -228,15 +261,28 @@ function App() {
       predictionsSet(fetchedPredictions);
     }
 
+    async function fetchSports(){
+      console.log("Fetching sports...");
+      let fetchedSports = [];
+      for(const a of sportAddresses){
+        const s = await fetchSport(provider, a);
+        fetchedSports.push(s);
+      }
+      sportsSet(fetchedSports);
+    }
+
     fetchData();
-  }, [provider, gameAddresses, predAddresses]);
+  }, [provider, gameAddresses, predAddresses, sportAddresses]);
 
   return (
     <div className="App">
       <header className="App-header">
         <WalletButton provider={provider} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal}/>
         <img src={logo} className="App-logo" alt="logo" />
-        <EtherContainer provider={provider} games={games} setGames={gameAddressesSet} predictions={predictions} setPredictions={predAddressesSet}></EtherContainer>
+        <EtherContainer provider={provider}
+        games={games} setGames={gameAddressesSet}
+        predictions={predictions} setPredictions={predAddressesSet}
+        sports={sports} setSports={sportAddressesSet}></EtherContainer>
       </header>
       <div id="background-radial-gradient">
       </div>

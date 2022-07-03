@@ -6,6 +6,7 @@ import predictionAbi from "./abis/predictionAbi.json";
 import predictionFactoryAbi from "./abis/predictionFactoryAbi.json";
 import rundownConsumerAbi from "./abis/rundownConsumerAbi.json";
 import sportsDataConsumerAbi from "./abis/sportsDataConsumerAbi.json";
+import sportsBetAbi from "./abis/sportsBetAbi.json";
 
 const abis = {
   erc20: erc20Abi,
@@ -16,6 +17,7 @@ const abis = {
   predictionFactory: predictionFactoryAbi,
   rundownConsumer: rundownConsumerAbi,
   sportsDataConsumer: sportsDataConsumerAbi,
+  sportsBet: sportsBetAbi,
 };
 
 export default abis;

@@ -1,6 +1,7 @@
 import React from "react";
 import { EtherBets } from "../bets/etherbets";
 import { EtherPredictions } from "../predictions/etherpredictions";
+import { EtherSport } from "../sport/ethersport";
 // This is a container component. 
 // It is used just to minimize/maximize the EtherBets/EtherPredictions.
 
@@ -18,6 +19,8 @@ export class EtherContainer extends React.Component{
         const setGames = this.props.setGames;
         const predictions = this.props.predictions;
         const setPredictions = this.props.setPredictions;
+        const sports = this.props.sports;
+        const setSports = this.props.setSports;
         const app = this.state.app;
 
         return(
@@ -36,6 +39,11 @@ export class EtherContainer extends React.Component{
             <div className="innerApp">
                 <EtherPredictions provider={provider} predictions={predictions} setPredictions={setPredictions} minimized={app !== 'predictions'}>
                 </EtherPredictions>
+            </div>
+
+            <div className="innerApp">
+                <EtherSport provider={provider} sports={sports} setSports={setSports} minimized={app !== 'sport'}>
+                </EtherSport>
             </div>
             {app !== 'faq' ? (<></>) : 
                 <div className="faq">
@@ -68,6 +76,15 @@ export class EtherContainer extends React.Component{
                         When the target time is reached, a transaction is made to fetch the price using ChainLINK's Price Feeds.
                         Lastly, winners are able to claim their prize proportionally to their bets.
                         Prize money comes from the losers.
+                    </div>
+                    <div className="faqQuestion">
+                        How do sport bets work?
+                    </div>
+                    <div className="faqAnswer">
+                        Sport bets function just like price bets, except the result of the games come from two selected ChainLINK data providers: TheRundown and SportsDataIO.
+                        After the game ends, the result is requested to both of these providers. If the results are in consensus to each other, the contract will let winners
+                        claim their prizes. If there is no oracle consensus about the result, the bet is cancelled and users can withdraw their money.
+                        This runs on Kovan, so make sure to switch networks and reload.
                     </div>
                 </div>
             }            

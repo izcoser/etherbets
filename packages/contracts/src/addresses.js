@@ -13,6 +13,7 @@ const addresses = {
   // Kovan:
   runDownConsumer: '0xc999a0c9d77cd9eed8956Cb405e6Ba74C250e430',
   sportsDataConsumer: '0x2A69109719778D640A3b9EFa5899449a04Cd43f9',
+  sportExample: '0x4C0a1ccFd82D20a0eF8C16dD6e66d2a44a5b0695',
 };
 
 export default addresses;
