@@ -9,14 +9,12 @@ import React, { useEffect, useState } from "react";
 //import { Button } from "./components";
 import logo from "./ethereumLogo.png";
 import useWeb3Modal from "./hooks/useWeb3Modal";
-import fetchData from "./fetch/fetchData";
+import {fetchData, fetchOracleData} from "./fetch/fetchData";
 
 import GET_TRANSFERS from "./graphql/subgraph";
 
-import { addresses, abis } from "@project/contracts";
-import { Contract } from "@ethersproject/contracts";
-import { combination } from "./components/bets/utils";
-import rinkebyPricePairs from "./components/predictions/rinkebyPriceProxies.js";
+import { addresses } from "@project/contracts";
+
 import './App.css';
 import { EtherContainer } from "./components/container/container";
 
@@ -74,6 +72,7 @@ function App() {
     const [predAddresses, predAddressesSet] = React.useState([addresses.predictionExample, addresses.predictionExample2, addresses.predictionExample3]);
     const [sports, sportsSet] = React.useState([]);
     const [sportAddresses, sportAddressesSet] = React.useState([addresses.sportExample]);
+    const [oracleGames, oracleSet] = React.useState([]);
 
     React.useEffect(() => {
         if (!loading && !error && data && data.transfers) {
@@ -82,7 +81,7 @@ function App() {
     }, [loading, error, data]);
 
     React.useEffect(() => {
-        fetchData(provider, gameAddresses, gamesSet, gameAddressesSet, predAddresses, predictionsSet, sportAddresses, sportsSet);
+        fetchData(provider, gameAddresses, gamesSet, gameAddressesSet, predAddresses, predictionsSet, sportAddresses, sportsSet, oracleSet);
     }, [provider, gameAddresses, predAddresses, sportAddresses]);
 
     React.useEffect(() => {
@@ -97,7 +96,8 @@ function App() {
                     games={games} setGames={gameAddressesSet}
                     predictions={predictions} setPredictions={predAddressesSet}
                     sports={sports} setSports={sportAddressesSet}
-                    logo={logo}></EtherContainer>
+                    logo={logo}
+                    oracleGames={oracleGames}></EtherContainer>
             </header>
             <div id="background-radial-gradient">
             </div>

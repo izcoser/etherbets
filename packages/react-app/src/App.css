@@ -307,3 +307,22 @@ input[type="text"]{
 .switchNetworks{
   margin-top: 2em;
 }
+
+.sportOracles{
+  display: flex;
+  flex-direction: row;
+  font-size: smaller;
+  text-align: center;
+  margin: 0 auto;
+  /*align-items: center;*/
+  justify-content: center;
+}
+
+.oracleGame{
+  margin: 10px;
+}
+
+.oracleGame:nth-child(2n+1){
+  background-color: #209869ad;
+  border-radius: 5px;
+}

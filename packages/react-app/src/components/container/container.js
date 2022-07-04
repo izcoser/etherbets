@@ -23,6 +23,7 @@ export class EtherContainer extends React.Component{
         const setSports = this.props.setSports;
         const app = this.state.app;
         const logo = this.props.logo;
+        const oracleGames = this.props.oracleGames;
 
         return(
         <>
@@ -44,7 +45,7 @@ export class EtherContainer extends React.Component{
             </div>
 
             <div className="innerApp">
-                <EtherSport provider={provider} sports={sports} setSports={setSports} minimized={app !== 'sport'}>
+                <EtherSport provider={provider} sports={sports} setSports={setSports} minimized={app !== 'sport'} oracleGames={oracleGames}>
                 </EtherSport>
             </div>
             {app !== 'faq' ? (<></>) : 

@@ -1,8 +1,53 @@
 import { addresses, abis } from "@project/contracts";
 import { Contract } from "@ethersproject/contracts";
 import rinkebyPricePairs from "../components/predictions/rinkebyPriceProxies.js";
+import abbrToName from "../components/sport/abbrToName";
 import { combination } from "../components/bets/utils";
+import { ethers } from "ethers";
 
+async function fetchOracleData(provider, address, oracle) {
+    let contract;
+    let gamesParsed;
+    if (oracle === 0) {
+        contract = new Contract(address, abis.sportsDataConsumer, provider);
+        const games = await contract.getAllGamesCreatedLastId().catch((err) => { console.log(err) });
+        gamesParsed = games.map((g) => {
+            return Object({
+                gameIdSD: Number(g['gameId']),
+                startTime: Number(g['startTime']),
+                homeTeam: abbrToName[g['homeTeam'].slice(-3).replace('\u0000', '')],
+                awayTeam: abbrToName[g['awayTeam'].slice(-3).replace('\u0000', '')],
+            })});
+    }
+    else if (oracle === 1) {
+        contract = new Contract(address, abis.rundownConsumer, provider);
+        const games = await contract.getAllGamesCreatedLastId().catch((err) => { console.log(err) });
+        gamesParsed = games.map((g) => {
+            return Object({
+                gameIdRD: g['gameId'],
+                startTime: Number(g['startTime']),
+                homeTeam: g['homeTeam'],
+                awayTeam: g['awayTeam'],
+            })});
+    }
+
+    console.log(gamesParsed);
+    return gamesParsed;
+}
+
+function joinOracleData(sdGames, rdGames){
+    const intersection = [];
+    for(let g of sdGames){
+        for(let w of rdGames){
+            if(w.homeTeam === g.homeTeam && w.awayTeam === g.awayTeam && w.startTime === g.startTime){
+                g['gameIdRD'] = w['gameId'];
+                intersection.push(g);
+                break;
+            }
+        }
+    }
+    return intersection; 
+}
 
 async function fetchSport(provider, address) {
     const contract = new Contract(address, abis.sportsBet, provider);
@@ -29,9 +74,6 @@ async function fetchSport(provider, address) {
         homeWinner: details[14],
         address: address,
     }
-
-    console.log({ "sport": sport })
-
     return sport;
 }
 
@@ -171,11 +213,16 @@ async function fetchRinkebyData(provider, gameAddresses, gamesSet, gameAddresses
 }
 
 // Fetch Sports contract data from Kovan.
-async function fetchKovanData(provider, sportAddresses, sportsSet) {
+async function fetchKovanData(provider, sportAddresses, sportsSet, oracleSet) {
     fetchSports(provider, sportAddresses, sportsSet);
+    console.log("setting sd and rd games");
+    const sd = await fetchOracleData(provider, addresses.sportsDataConsumer, 0) 
+    const rd = await fetchOracleData(provider, addresses.runDownConsumer, 1);
+    const intersection = joinOracleData(sd, rd);
+    oracleSet(intersection);
 }
 
-async function fetchData(provider, gameAddresses, gamesSet, gameAddressesSet, predAddresses, predictionsSet, sportAddresses, sportsSet) {
+async function fetchData(provider, gameAddresses, gamesSet, gameAddressesSet, predAddresses, predictionsSet, sportAddresses, sportsSet, oracleSet) {
     if (!provider) {
         console.log('No provider.')
         return;
@@ -195,9 +242,9 @@ async function fetchData(provider, gameAddresses, gamesSet, gameAddressesSet, pr
             fetchRinkebyData(provider, gameAddresses, gamesSet, gameAddressesSet, predAddresses, predictionsSet);
         }
         else if (network.chainId === 42) {
-            fetchKovanData(provider, sportAddresses, sportsSet);
+            fetchKovanData(provider, sportAddresses, sportsSet, oracleSet);
         }
     }
 }
 
-export default fetchData;
+export { fetchData, fetchOracleData };

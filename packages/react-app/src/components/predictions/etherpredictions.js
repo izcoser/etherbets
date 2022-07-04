@@ -24,7 +24,7 @@ export class EtherPredictions extends React.Component{
             <ContractImporter data={predictions} setContracts={setPredictions} provider={this.props.provider} title={"Import a New Price Bet"}></ContractImporter>
             <PredictionList predictions={predictions} provider={this.props.provider}></PredictionList>
           </>) :
-          (<div class="switchNetworks">There's nothing here. Switch to the <span class="ticker">Rinkeby</span> network!</div>)
+          (<div className="switchNetworks">There's nothing here. Switch to the <span className="ticker">Rinkeby</span> network!</div>)
           }
         </div>
       );

@@ -26,7 +26,7 @@ export class EtherBets extends React.Component{
             <ContractImporter data={games} setContracts={setGames} provider={this.props.provider} title={"Import a New Lottery"}></ContractImporter>
             <GameList games={games} provider={this.props.provider}></GameList></>
           ) :
-          (<div class="switchNetworks">There's nothing here. Switch to the <span class="ticker">Rinkeby</span> network!</div>)
+          (<div className="switchNetworks">There's nothing here. Switch to the <span className="ticker">Rinkeby</span> network!</div>)
           }
         </div>
       );    
