@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 
 //import { Body, Button, Header, Image, Link} from "./components";
 //import { Button } from "./components";
-import logo from "./ethereumLogo.png";
+import logo from "./etherbetsLogo.png";
 import useWeb3Modal from "./hooks/useWeb3Modal";
 import {fetchData, fetchOracleData} from "./fetch/fetchData";
 
@@ -91,6 +91,7 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
                 <WalletButton provider={provider} loadWeb3Modal={loadWeb3Modal} logoutOfWeb3Modal={logoutOfWeb3Modal} />
                 <EtherContainer provider={provider}
                     games={games} setGames={gameAddressesSet}

@@ -33,7 +33,6 @@ export class EtherContainer extends React.Component{
                 <a href="#/sportbets" className={"navLink" + (app === "sport" ? " active" : "")} onClick={() => this.setState({app: 'sport'})}>Sport Bets</a>
                 <a href="#/faq" className={"navLink" + (app === "faq" ? " active" : "")} onClick={() => this.setState({app: 'faq'})}>FAQ</a>
             </div>
-            <img src={logo} className="App-logo" alt="logo" />
             <div className="innerApp">
                 <EtherBets provider={provider} games={games} setGames={setGames} minimized={app !== 'lottery'}>
                 </EtherBets>

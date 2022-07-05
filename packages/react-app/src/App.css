@@ -27,16 +27,19 @@ html{
   transform: translate(-50vw,-100vh);
   z-index: -1;
 }
-/*style="width: 200vw; height: 200vh; transform: translate(-50vw, -100vh);"
-*/
+
 .App {
   text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 12vmin;
   pointer-events: none;
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }
+
 /*
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -68,7 +71,7 @@ html{
 }
 
 .game, .prediction{
-  border: 25px solid rgb(25, 27, 31);
+  border: 15px solid rgba(255, 255, 255, 0.12);
   padding-bottom: 20px;
   border-radius: 15px;
 }
