@@ -4,7 +4,7 @@ Frontend for [ethebets-contracts](https://github.com/izcoser/etherbets-contracts
 
 Decentralized, trustless betting platform powered by smart contracts and ChainLINK  oracles. Ethereum Virtual Machine compatible.
 
-Current work in progress available at: http://198.58.111.165:3000
+Current work in progress available at: https://etherbets.org/
 
 Bootstrapped with [Create Eth App](https://github.com/paulrberg/create-eth-app).
 
