@@ -21,8 +21,6 @@ export class Game extends React.Component{
       const nextDrawTime = (game.lastDrawTime + game.timeBetweenDraws) * 1000; // to millis
       const nextDraw = new Date(nextDrawTime).toLocaleDateString("en-US") + ' ' + new Date(nextDrawTime).toLocaleTimeString("en-US");
       const winningNumbers = (game.winningNumbers.map((n) => (<div className="winningNumber">{n}</div>)) || "No draws");
-      //{/*game.winningNumbers.join(', ') || "No draws"*/}
-
 
       const innerMinimized = (<div className="gameInner">
             <div className="gamePrize">Prize: {ethers.utils.formatEther(game.prize.toString()) + " ETH"}</div>
@@ -39,7 +37,7 @@ export class Game extends React.Component{
               <div className="gameContract"><a className="contractLink" href={"https://rinkeby.etherscan.io/address/" + game.address} target="_blank" rel="noreferrer">Contract Address</a></div>
             </div>
             <div className="gameInputs">
-              <BetInput game={game} provider={this.props.provider}></BetInput>
+              {(gameBegin || gameDraw) ? (<BetInput game={game} provider={this.props.provider}></BetInput>) : <></>}
               {gameBegin ? (<input className="gameBegin button-40" type="button" value="Begin Lottery" onClick={() => beginGame(this.props.provider, game)}></input>) : <></>}
               {gameDraw ? (<input className="gameDraw button-40" type="button" value="Draw Numbers" onClick={() => drawNumbers(this.props.provider, game)}></input>) : <></>}
             </div>
