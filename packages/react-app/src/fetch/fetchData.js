@@ -122,7 +122,7 @@ async function fetchGame(provider, address) {
     return game;
 }
 
-function listenToBetEvents(a, provider) {
+function listenToBetEvents(a, provider, gameAddresses, gamesSet) {
     const c = new Contract(a, abis.etherBets, provider);
     c.on("BetPlaced", (sender, numbers, draw, evt) => {
         console.log('Bet placed at ' + a);
@@ -131,7 +131,7 @@ function listenToBetEvents(a, provider) {
             numbers: numbers.toString(),
             draw: Number(draw.toString()),
         });
-        fetchGames();
+        fetchGames(provider, gameAddresses, gamesSet);
     });
 
     c.on("RandomnessRequested", (draw, evt) => {
@@ -139,7 +139,7 @@ function listenToBetEvents(a, provider) {
         console.log({
             draw: Number(draw.toString()),
         });
-        fetchGames();
+        fetchGames(provider, gameAddresses, gamesSet);
     });
 
     c.on("RandomnessFulfilled", (randomness, draw, evt) => {
@@ -147,7 +147,7 @@ function listenToBetEvents(a, provider) {
         console.log({
             draw: Number(draw.toString()),
         });
-        fetchGames();
+        fetchGames(provider, gameAddresses, gamesSet);
     });
 
     c.on("NumbersDrawn", (numbers, draw, evt) => {
@@ -156,7 +156,7 @@ function listenToBetEvents(a, provider) {
             numbers: numbers.toString(),
             draw: Number(draw.toString()),
         });
-        fetchGames();
+        fetchGames(provider, gameAddresses, gamesSet);
     });
 }
 
@@ -200,12 +200,12 @@ async function fetchRinkebyData(provider, gameAddresses, gamesSet, gameAddresses
         });
 
         gameAddressesSet(gameAddresses.concat(address));
-        listenToBetEvents(address, provider);
-        fetchGames();
+        listenToBetEvents(address, provider, gameAddresses, gamesSet);
+        fetchGames(provider, gameAddresses, gamesSet);
     });
 
     for (let a of gameAddresses) {
-        listenToBetEvents(a, provider);
+        listenToBetEvents(a, provider, gameAddresses, gamesSet);
     }
 
     fetchPredictions(provider, predAddresses, predictionsSet);
