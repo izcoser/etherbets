@@ -131,6 +131,7 @@ html{
   justify-content: center;
   white-space: pre;
   grid-area: last;
+  flex-flow: row wrap;
 }
 
 .gameOdds{
