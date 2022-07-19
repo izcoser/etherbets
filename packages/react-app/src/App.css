@@ -334,7 +334,20 @@ input[type="text"]{
   margin: 10px;
 }
 
-.oracleGame:nth-child(2n+1){
+.oracleGameContainer:nth-child(2n+1){
   background-color: #209869ad;
   border-radius: 5px;
+}
+
+.oracleGameContainer{
+  display: flex;
+}
+
+.oracleGameContainer > .button-40{
+  margin-left: auto;
+}
+
+.upcomingGames{
+  font-weight: bolder;
+  font-size: calc(10px + 2vmin);
 }

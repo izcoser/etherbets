@@ -40,7 +40,7 @@ function joinOracleData(sdGames, rdGames){
     for(let g of sdGames){
         for(let w of rdGames){
             if(w.homeTeam === g.homeTeam && w.awayTeam === g.awayTeam && w.startTime === g.startTime){
-                g['gameIdRD'] = w['gameId'];
+                g['gameIdRD'] = w['gameIdRD'];
                 intersection.push(g);
                 break;
             }

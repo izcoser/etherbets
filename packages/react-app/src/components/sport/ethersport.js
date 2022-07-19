@@ -8,6 +8,10 @@ import { addresses, abis } from "@project/contracts";
 import { Contract } from "@ethersproject/contracts";
 
 export class EtherSport extends React.Component {
+  createSportBet = (sport) => {
+    createNewSportBet(this.props.provider, sport);
+  }
+
   render() {
     const minimized = this.props.minimized;
     const sports = this.props.sports;
@@ -19,7 +23,7 @@ export class EtherSport extends React.Component {
           sports.length > 0 ?
             (<>
               <div className="sportOracles">
-                <SportOracle data={oracleGames}></SportOracle>
+                <SportOracle data={oracleGames} creator={this.createSportBet}></SportOracle>
               </div>
               <ContractImporter data={sports} setContracts={setSports} provider={this.props.provider} title={"Import a New Sport Bet"}></ContractImporter>
               <SportList sports={sports} provider={this.props.provider}></SportList>
@@ -30,10 +34,12 @@ export class EtherSport extends React.Component {
     );
   }
 }
-/*
-export async function createNewPrediction(provider, prediction){
-  console.log('Creating new prediction:')
-  console.log({prediction: prediction});
-  const predictionFactory = new Contract(addresses.predictionFactory, abis.predictionFactory, provider.getSigner());
-  await predictionFactory.newEtherPrediction(prediction.aggregator, prediction.targetPrice, prediction.targetTime, prediction.deadline).catch((err) => { console.log(err)});
-}*/
+
+export async function createNewSportBet(provider, sport){
+  console.log('Creating new sport bet:')
+  console.log({sport: sport});
+  const sportsFactory = new Contract(addresses.sportsFactory, abis.sportsFactory, provider.getSigner());
+  const linkToken = "0xa36085F69e2889c224210F603D836748e7dC0088";
+  const oracle = "0xfF07C97631Ff3bAb5e5e5660Cdf47AdEd8D4d4Fd";
+  await sportsFactory.newEtherSports(linkToken, oracle, sport.startTime, sport.gameIdSD, sport.gameIdRD, sport.homeTeam, sport.awayTeam).catch((err) => { console.log(err)});
+}
