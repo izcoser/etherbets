@@ -160,6 +160,53 @@ function listenToBetEvents(a, provider, gameAddresses, gamesSet) {
     });
 }
 
+function listenToSportBetEvents(address, provider, sportAddresses, sportsSet){
+    const c = new Contract(address, abis.sportsBet, provider);
+    console.log('listening to events on ' + address)
+    c.on("BetPlaced", (sender, amount, homeTeam, evt) => {
+        console.log('Bet placed at ' + address);
+        console.log({
+            sender: sender,
+            amount: amount.toString(),
+            homeTeam: homeTeam,
+        });
+        fetchSports(provider, sportAddresses, sportsSet);
+    });
+
+    c.on("ResultsAggregated", (consensus, homeScore, awayScore) => {
+        console.log('Consensus reached at ' + address);
+        console.log({
+            consensus: consensus, 
+            homeScore: homeScore,
+            awayScore: awayScore,
+        });
+        fetchSports(provider, sportAddresses, sportsSet);
+    });
+}
+
+function listenToPredEvents(address, provider, predAddresses, predictionsSet){
+    const c = new Contract(address, abis.prediction, provider);
+    console.log('listening to events on ' + address)
+    c.on("BetPlaced", (sender, amount, higher, evt) => {
+        console.log('Bet placed at ' + address);
+        console.log({
+            sender: sender,
+            amount: amount.toString(),
+            higher: higher,
+        });
+        fetchPredictions(provider, predAddresses, predictionsSet);
+    });
+
+    c.on("PriceObtained", (price, timestamp) => {
+        console.log('Consensus reached at ' + address);
+        console.log({
+            price: price, 
+            timestamp: timestamp.toString(),
+        });
+        fetchPredictions(provider, predAddresses, predictionsSet);
+    });
+}
+
 async function fetchGames(provider, gameAddresses, gamesSet) {
     console.log("Fetching games...");
     let fetchedGames = [];
@@ -191,7 +238,7 @@ async function fetchSports(provider, sportAddresses, sportsSet) {
 }
 
 // Fetch Lottery and Prediction contract data from Rinkeby.
-async function fetchRinkebyData(provider, gameAddresses, gamesSet, gameAddressesSet, predAddresses, predictionsSet) {
+async function fetchRinkebyData(provider, gameAddresses, gamesSet, gameAddressesSet, predAddresses, predictionsSet, predAddressesSet) {
     const factoryContract = new Contract(addresses.etherBetsFactory, abis.etherBetsFactory, provider);
     factoryContract.on("NewLottery", (address, evt) => {
         console.log({
@@ -204,8 +251,24 @@ async function fetchRinkebyData(provider, gameAddresses, gamesSet, gameAddresses
         fetchGames(provider, gameAddresses, gamesSet);
     });
 
+    const predFactoryContract = new Contract(addresses.predictionFactory, abis.predictionFactory, provider);
+    predFactoryContract.on("NewPrediction", (address, evt) => {
+        console.log({
+            address: address,
+            evt: evt
+        });
+
+        predAddressesSet(predAddresses.concat(address));
+        listenToPredEvents(address, provider, predAddresses, predictionsSet);
+        fetchPredictions(provider, predAddresses, predictionsSet);
+    });
+
     for (let a of gameAddresses) {
         listenToBetEvents(a, provider, gameAddresses, gamesSet);
+    }
+
+    for (let a of predAddresses) {
+        listenToPredEvents(a, provider, predAddresses, predictionsSet);
     }
 
     fetchPredictions(provider, predAddresses, predictionsSet);
@@ -213,7 +276,23 @@ async function fetchRinkebyData(provider, gameAddresses, gamesSet, gameAddresses
 }
 
 // Fetch Sports contract data from Kovan.
-async function fetchKovanData(provider, sportAddresses, sportsSet, oracleSet) {
+async function fetchKovanData(provider, sportAddresses, sportsSet, oracleSet, sportAddressesSet) {
+    const factoryContract = new Contract(addresses.sportsFactory, abis.sportsFactory, provider);
+    factoryContract.on("NewSports", (address, evt) => {
+        console.log({
+            address: address,
+            evt: evt
+        });
+
+        sportAddressesSet(sportAddresses.concat(address));
+        listenToSportBetEvents(address, provider, sportAddresses, sportsSet);
+        fetchSports(provider, sportAddresses, sportsSet);
+    });
+
+    for (let a of sportAddresses) {
+        listenToSportBetEvents(a, provider, sportAddresses, sportsSet);
+    }
+
     fetchSports(provider, sportAddresses, sportsSet);
     console.log("setting sd and rd games");
     const sd = await fetchOracleData(provider, addresses.sportsDataConsumer, 0) 
@@ -222,7 +301,7 @@ async function fetchKovanData(provider, sportAddresses, sportsSet, oracleSet) {
     oracleSet(intersection);
 }
 
-async function fetchData(provider, gameAddresses, gamesSet, gameAddressesSet, predAddresses, predictionsSet, sportAddresses, sportsSet, oracleSet) {
+async function fetchData(provider, gameAddresses, gamesSet, gameAddressesSet, predAddresses, predictionsSet, sportAddresses, sportsSet, oracleSet, sportAddressesSet, predAddressesSet) {
     if (!provider) {
         console.log('No provider.')
         return;
@@ -239,10 +318,10 @@ async function fetchData(provider, gameAddresses, gamesSet, gameAddressesSet, pr
         console.log('Provider loaded.');
 
         if (network.chainId === 4) {
-            fetchRinkebyData(provider, gameAddresses, gamesSet, gameAddressesSet, predAddresses, predictionsSet);
+            fetchRinkebyData(provider, gameAddresses, gamesSet, gameAddressesSet, predAddresses, predictionsSet, predAddressesSet);
         }
         else if (network.chainId === 42) {
-            fetchKovanData(provider, sportAddresses, sportsSet, oracleSet);
+            fetchKovanData(provider, sportAddresses, sportsSet, oracleSet, sportAddressesSet);
         }
     }
 }

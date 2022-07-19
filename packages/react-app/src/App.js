@@ -81,7 +81,8 @@ function App() {
     }, [loading, error, data]);
 
     React.useEffect(() => {
-        fetchData(provider, gameAddresses, gamesSet, gameAddressesSet, predAddresses, predictionsSet, sportAddresses, sportsSet, oracleSet);
+        fetchData(provider, gameAddresses, gamesSet, gameAddressesSet, predAddresses, predictionsSet, sportAddresses, sportsSet, oracleSet,
+            sportAddressesSet, predAddressesSet);
     }, [provider, gameAddresses, predAddresses, sportAddresses]);
 
     React.useEffect(() => {
