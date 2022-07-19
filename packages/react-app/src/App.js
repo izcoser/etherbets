@@ -67,7 +67,7 @@ function App() {
     const { loading, error, data } = useQuery(GET_TRANSFERS);
     const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
     const [games, gamesSet] = React.useState([]);
-    const [gameAddresses, gameAddressesSet] = React.useState([addresses.simple, addresses.megaSena, addresses.lotoFacil, addresses.megaMillions]);
+    const [gameAddresses, gameAddressesSet] = React.useState([addresses.lotoUfes, addresses.megaSena, addresses.powerBall]);
     const [predictions, predictionsSet] = React.useState([]);
     const [predAddresses, predAddressesSet] = React.useState([addresses.predictionExample, addresses.predictionExample2, addresses.predictionExample3]);
     const [sports, sportsSet] = React.useState([]);

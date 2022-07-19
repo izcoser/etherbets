@@ -1,18 +1,19 @@
 const addresses = {
   // Rinkeby:
-  etherBetsFactory: "0x37b189599dEd19E8393e5D55F758DFAe5a164dC5",
-  simple: "0x7e95b4e3a8ffbbd6db1c7e4bf023dcb826dc9a77",
-  megaSena: "0x8870f9fbfafda19f7b91f49cc047e9abe8b6aa35",
-  lotoFacil: "0x0ec1b0723e997c26f720dee58c238a7bd082c55d",
-  megaMillions: "0x347313fcca6dea9163316a24eb3e1a16531e4b24",
-  predictionExample: "0x560fd75593aa357cb2323b8594f504825d210b18",
-  predictionExample2: "0x0b2e21d96a1d73fe39b29c8bcb90cc2086101291",
-  predictionExample3: "0x3a6b04b63264a8aff109d1b90050703b145014f3",
-  predictionFactory: "0x928c49cb420138f8F578b5e5F9cd59E13Bac25fe",
+  etherBetsFactory: "0xDFC6BB9830780f524b52CEb3e67C9573d1051242",
+  megaSena: "0xeC6Ab1a96Af47BdEe5032B275a74e97e2D3AEb9A",
+  lotoUfes: "0x0857Da60b42300a17d0ca0C0A505E1Eb513129E9",
+  powerBall: "0xD34303A9eD59cE79c3E6Ae9F60f9A4d4c7cb909f",
+
+  predictionExample: "0x182E1578F3638f234D8abFd18DbBFCe4391f1996",
+  predictionExample2: "0x9A08a520E628696f1EDE10c43220c24F503F8f6A",
+  predictionExample3: "0xBC3df13c9a828e3232255b7dec47daa216825f8a",
+  predictionFactory: "0x1d5E95de4B056A1F6E73FC0f0C0F2b892fF1e82E",
 
   // Kovan:
   runDownConsumer: '0xc999a0c9d77cd9eed8956Cb405e6Ba74C250e430',
   sportsDataConsumer: '0x2A69109719778D640A3b9EFa5899449a04Cd43f9',
+  sportsFactory: '0x338613069D45Fa0A060b34Af39f836c9413Eccc7',
   sportExample: '0x4C0a1ccFd82D20a0eF8C16dD6e66d2a44a5b0695',
 };
 

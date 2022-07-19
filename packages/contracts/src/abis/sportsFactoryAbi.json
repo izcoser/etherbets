@@ -5,11 +5,11 @@
             {
                 "indexed": false,
                 "internalType": "address",
-                "name": "prediction",
+                "name": "sport",
                 "type": "address"
             }
         ],
-        "name": "NewPrediction",
+        "name": "NewSports",
         "type": "event"
     },
     {
@@ -35,26 +35,41 @@
         "inputs": [
             {
                 "internalType": "address",
-                "name": "aggregator",
+                "name": "_link",
                 "type": "address"
             },
             {
-                "internalType": "int256",
-                "name": "targetPrice",
-                "type": "int256"
+                "internalType": "address",
+                "name": "_oracle",
+                "type": "address"
             },
             {
                 "internalType": "uint256",
-                "name": "targetTime",
+                "name": "_date",
                 "type": "uint256"
             },
             {
-                "internalType": "uint256",
-                "name": "deadline",
-                "type": "uint256"
+                "internalType": "uint32",
+                "name": "_gameIdSD",
+                "type": "uint32"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "_gameIdRD",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "string",
+                "name": "_homeTeam",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_awayTeam",
+                "type": "string"
             }
         ],
-        "name": "newEtherPrediction",
+        "name": "newEtherSports",
         "outputs": [
             {
                 "internalType": "address",
