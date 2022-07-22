@@ -8,6 +8,10 @@ Current work in progress available at: https://etherbets.org/
 
 Bootstrapped with [Create Eth App](https://github.com/paulrberg/create-eth-app).
 
+To do:
+
+- [ ] - Rewrite this frontend using NextJS with TypeScript.
+
 ## Project Structure
 
 The default template is a monorepo created with [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces/).
