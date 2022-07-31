@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 //import { Button } from "./components";
 import logo from "./etherbetsLogo.png";
 import useWeb3Modal from "./hooks/useWeb3Modal";
-import {fetchData, fetchOracleData} from "./fetch/fetchData";
+import {fetchData} from "./fetch/fetchData";
 
 import GET_TRANSFERS from "./graphql/subgraph";
 

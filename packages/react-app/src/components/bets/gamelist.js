@@ -7,7 +7,7 @@ export class GameList extends React.Component{
       
       return (
         <div className="gameList">
-          {games.map((game, i) => <Game value={game} provider={this.props.provider} key={game.name}/>)}
+          {games.map((game) => <Game value={game} provider={this.props.provider} key={game.address.slice(0, 5)}/>)}
         </div>
       );
     }  

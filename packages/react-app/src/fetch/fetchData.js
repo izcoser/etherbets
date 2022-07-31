@@ -3,7 +3,6 @@ import { Contract } from "@ethersproject/contracts";
 import rinkebyPricePairs from "../components/predictions/rinkebyPriceProxies.js";
 import abbrToName from "../components/sport/abbrToName";
 import { combination } from "../components/bets/utils";
-import { ethers } from "ethers";
 
 async function fetchOracleData(provider, address, oracle) {
     let contract;

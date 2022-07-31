@@ -1,8 +1,4 @@
 import React from "react";
-import { ethers } from "ethers";
-import { abis } from "@project/contracts";
-import { Contract } from "@ethersproject/contracts";
-import { SportList } from "./sportlist";
 
 export class SportOracle extends React.Component {
     constructor(props) {
@@ -15,7 +11,6 @@ export class SportOracle extends React.Component {
 
     render() {
         const games = this.props.data || [];
-        const name = this.props.name;
         return (
             <div className="oracle">
                 <div className="upcomingGames">Upcoming games:</div>

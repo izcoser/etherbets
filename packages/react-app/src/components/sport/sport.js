@@ -2,7 +2,6 @@ import React from "react";
 import { ethers } from "ethers";
 import { abis } from "@project/contracts";
 import { Contract } from "@ethersproject/contracts";
-import { SportList } from "./sportlist";
 
 export class Sport extends React.Component{
     constructor(props){

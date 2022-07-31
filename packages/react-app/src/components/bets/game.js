@@ -20,7 +20,7 @@ export class Game extends React.Component{
       const gameDraw = game.paused && game.randomNumberFetched;
       const nextDrawTime = (game.lastDrawTime + game.timeBetweenDraws) * 1000; // to millis
       const nextDraw = new Date(nextDrawTime).toLocaleDateString("en-US") + ' ' + new Date(nextDrawTime).toLocaleTimeString("en-US");
-      const winningNumbers = (game.winningNumbers.map((n) => (<div className="winningNumber">{n}</div>)) || "No draws");
+      const winningNumbers = (game.winningNumbers.map((n) => (<div className="winningNumber" key={n + game.address.slice(0, 5)}>{n}</div>)) || "No draws");
       const paused = game.paused;
 
       const innerMinimized = (<div className="gameInner">

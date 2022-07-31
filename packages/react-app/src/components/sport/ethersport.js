@@ -1,7 +1,6 @@
 import React from "react";
 import { SportList } from "./sportlist";
 import { SportOracle } from "./sportoracle";
-import { SportCreator } from "./sportcreator";
 import { ContractImporter } from "../container/contractimporter";
 
 import { addresses, abis } from "@project/contracts";

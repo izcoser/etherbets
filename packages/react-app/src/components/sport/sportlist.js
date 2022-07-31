@@ -7,7 +7,7 @@ export class SportList extends React.Component{
       
       return (
         <div className="gameList">
-          {sports.map((sport, i) => <Sport value={sport} provider={this.props.provider} key={i}/>)}
+          {sports.map((sport, i) => <Sport value={sport} provider={this.props.provider} key={sport.address.slice(0, 5)}/>)}
         </div>
       );
     }  

@@ -22,7 +22,6 @@ export class EtherContainer extends React.Component{
         const sports = this.props.sports;
         const setSports = this.props.setSports;
         const app = this.state.app;
-        const logo = this.props.logo;
         const oracleGames = this.props.oracleGames;
 
         return(
