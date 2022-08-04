@@ -67,7 +67,7 @@ export class Prediction extends React.Component{
         return (
           <div
             className={minimized ? "prediction minimized" : "prediction maximized"}>
-            <div className="predictionName" onClick={() => this.setState({minimized: !this.state.minimized})}>Will <span className="ticker">{prediction.ticker}</span> be higher than <span className="targetPrice">{prediction.targetPrice / 100000000.0 }</span> at {targetDate}?</div>
+            <div className="predictionName" onClick={() => this.setState({minimized: !this.state.minimized})}>Will <span className="ticker">{prediction.ticker}</span> be over <span className="targetPrice">{prediction.targetPrice / 100000000.0 }</span> at {targetDate}?</div>
             <div className="predictionPrize">Prize: {ethers.utils.formatEther(total.toString()) + " ETH"}</div>
             {minimized ? <></> : innerMaximized}
           </div>
