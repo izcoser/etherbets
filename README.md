@@ -12,6 +12,8 @@ To do:
 
 - [ ] - Rewrite this frontend using NextJS with TypeScript.
 
+- [ ] - Use WAGMI React Hooks for Ethereum.
+
 ## Project Structure
 
 The default template is a monorepo created with [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces/).
