@@ -14,6 +14,8 @@ To do:
 
 - [ ] - Use WAGMI React Hooks for Ethereum.
 
+- [ ] - Add a proper network switcher button.
+
 ## Project Structure
 
 The default template is a monorepo created with [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces/).
