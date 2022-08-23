@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 //import { Button } from "./components";
 import logo from "./etherbetsLogo.png";
 import useWeb3Modal from "./hooks/useWeb3Modal";
-import {fetchData} from "./fetch/fetchData";
+import { fetchData } from "./fetch/fetchData";
 
 import GET_TRANSFERS from "./graphql/subgraph";
 
@@ -86,7 +86,9 @@ function App() {
     }, [provider, gameAddresses, predAddresses, sportAddresses]);
 
     React.useEffect(() => {
-        window.ethereum.on('chainChanged', (_chainId) => window.location.reload());
+        if (window.ethereum) {
+            window.ethereum.on('chainChanged', (_chainId) => window.location.reload())
+        };
     }, []);
 
     return (

@@ -32,6 +32,7 @@ export class EtherContainer extends React.Component{
                 <a href="#/sportbets" className={"navLink" + (app === "sport" ? " active" : "")} onClick={() => this.setState({app: 'sport'})}>Sport Bets</a>
                 <a href="#/faq" className={"navLink" + (app === "faq" ? " active" : "")} onClick={() => this.setState({app: 'faq'})}>FAQ</a>
             </div>
+            { !window.ethereum ? <div class="metamaskReq"><span class="required">Metamask</span> is required to interact with this website.</div> : <></>}
             <div className="innerApp">
                 <EtherBets provider={provider} games={games} setGames={setGames} minimized={app !== 'lottery'}>
                 </EtherBets>

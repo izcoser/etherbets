@@ -351,3 +351,12 @@ input[type="text"]{
   font-weight: bolder;
   font-size: calc(10px + 2vmin);
 }
+
+.metamaskReq{
+  font-weight: bolder;
+  margin-top: 2em;
+}
+
+.required{
+  color:#f6851b;
+}
