@@ -1,6 +1,6 @@
 ## Etherbets
 
-Frontend for [ethebets-contracts](https://github.com/izcoser/etherbets-contracts).
+Frontend for [etherbets-contracts](https://github.com/izcoser/etherbets-contracts).
 
 Decentralized, trustless betting platform powered by smart contracts and ChainLINK  oracles. Ethereum Virtual Machine compatible.
 
