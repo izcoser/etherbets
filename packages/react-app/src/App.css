@@ -203,15 +203,23 @@ input[type="text"]{
 }
 
 .winningNumber{
-  margin: 0 12px 0 0;
-  font-size: 2rem;
-  color: #fff;
-  background: #209869;
-  border-radius: 35px;
-  width: 36px;
-  height: 36px;
-  padding: 12px;
+  color: rgb(255, 255, 255);
+  background-color: #1DB954;
+  margin: 0 8px 0 0;
+  letter-spacing: 2px;
+  padding: 0 0 0 2px;
+  width: 44px;
+  height: 44px;
+  font-size: 22px;
+  line-height: 44px;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
   text-align: center;
+  box-sizing: border-box;
+  /*font-family: arial,sans-serif-light,sans-serif;*/
+  font-weight: bolder;
 }
 
 .button-40, .input-40 {
